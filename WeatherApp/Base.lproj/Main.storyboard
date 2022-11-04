@@ -1,24 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Dashboard View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="DashboardViewController" customModule="WeatherApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="D9E-vI-QUr">
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="600"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kg9-yn-QkQ">
+                                        <rect key="frame" x="0.0" y="0.0" width="390" height="250"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lgZ-eN-AYv">
+                                                <rect key="frame" x="0.0" y="0.0" width="390" height="250"/>
+                                            </imageView>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mCm-Ss-I7c">
+                                                <rect key="frame" x="0.0" y="0.0" width="390" height="250"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </view>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="mCm-Ss-I7c" secondAttribute="bottom" id="5Ca-zt-3xm"/>
+                                            <constraint firstItem="mCm-Ss-I7c" firstAttribute="leading" secondItem="Kg9-yn-QkQ" secondAttribute="leading" id="9ZQ-hN-tlu"/>
+                                            <constraint firstItem="mCm-Ss-I7c" firstAttribute="top" secondItem="Kg9-yn-QkQ" secondAttribute="top" id="Gcn-wd-78K"/>
+                                            <constraint firstItem="lgZ-eN-AYv" firstAttribute="top" secondItem="Kg9-yn-QkQ" secondAttribute="top" id="gMg-Ac-vaa"/>
+                                            <constraint firstAttribute="trailing" secondItem="lgZ-eN-AYv" secondAttribute="trailing" id="hgi-2s-l8w"/>
+                                            <constraint firstAttribute="height" constant="250" id="o2U-ud-2gl"/>
+                                            <constraint firstAttribute="trailing" secondItem="mCm-Ss-I7c" secondAttribute="trailing" id="pmG-NW-zyb"/>
+                                            <constraint firstItem="lgZ-eN-AYv" firstAttribute="leading" secondItem="Kg9-yn-QkQ" secondAttribute="leading" id="u4I-1w-m6v"/>
+                                            <constraint firstAttribute="bottom" secondItem="lgZ-eN-AYv" secondAttribute="bottom" id="wky-u1-OtB"/>
+                                        </constraints>
+                                    </view>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mRl-eA-9Te">
+                                        <rect key="frame" x="0.0" y="250" width="390" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="0SF-HS-9jw"/>
+                                        </constraints>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="qcS-UJ-kDg">
+                                        <rect key="frame" x="0.0" y="300" width="390" height="300"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="D9E-vI-QUr" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="Bn2-8f-sQV"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="D9E-vI-QUr" secondAttribute="bottom" id="GWc-Eh-S0K"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="D9E-vI-QUr" secondAttribute="trailing" id="PT3-Ph-edF"/>
+                            <constraint firstItem="D9E-vI-QUr" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="iB8-4y-QCJ"/>
+                        </constraints>
                     </view>
+                    <size key="freeformSize" width="390" height="600"/>
+                    <connections>
+                        <outlet property="currentWeatherContainerView" destination="mCm-Ss-I7c" id="NZf-UJ-Tnq"/>
+                        <outlet property="tempRecordHeightConstraint" destination="0SF-HS-9jw" id="tCM-3U-kxp"/>
+                        <outlet property="tempRecordStackView" destination="qcS-UJ-kDg" id="jOc-6h-a5H"/>
+                        <outlet property="themeImageView" destination="lgZ-eN-AYv" id="foU-yd-Ohk"/>
+                        <outlet property="themeImageViewContainer" destination="Kg9-yn-QkQ" id="5jt-Jj-DDf"/>
+                        <outlet property="themeImageViewHeightConstraint" destination="o2U-ud-2gl" id="xi6-DZ-ga9"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="-23" y="4"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
