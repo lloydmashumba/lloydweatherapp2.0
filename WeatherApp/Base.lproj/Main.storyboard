@@ -22,7 +22,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kg9-yn-QkQ">
                                         <rect key="frame" x="0.0" y="0.0" width="390" height="250"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lgZ-eN-AYv">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lgZ-eN-AYv">
                                                 <rect key="frame" x="0.0" y="0.0" width="390" height="250"/>
                                             </imageView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mCm-Ss-I7c">
@@ -37,7 +37,7 @@
                                             <constraint firstItem="mCm-Ss-I7c" firstAttribute="top" secondItem="Kg9-yn-QkQ" secondAttribute="top" id="Gcn-wd-78K"/>
                                             <constraint firstItem="lgZ-eN-AYv" firstAttribute="top" secondItem="Kg9-yn-QkQ" secondAttribute="top" id="gMg-Ac-vaa"/>
                                             <constraint firstAttribute="trailing" secondItem="lgZ-eN-AYv" secondAttribute="trailing" id="hgi-2s-l8w"/>
-                                            <constraint firstAttribute="height" constant="250" id="him-AV-Klh"/>
+                                            <constraint firstAttribute="height" constant="250" id="o2U-ud-2gl"/>
                                             <constraint firstAttribute="trailing" secondItem="mCm-Ss-I7c" secondAttribute="trailing" id="pmG-NW-zyb"/>
                                             <constraint firstItem="lgZ-eN-AYv" firstAttribute="leading" secondItem="Kg9-yn-QkQ" secondAttribute="leading" id="u4I-1w-m6v"/>
                                             <constraint firstAttribute="bottom" secondItem="lgZ-eN-AYv" secondAttribute="bottom" id="wky-u1-OtB"/>
@@ -46,13 +46,13 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mRl-eA-9Te">
                                         <rect key="frame" x="0.0" y="250" width="390" height="50"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="ID3-Sd-Iwf"/>
+                                            <constraint firstAttribute="height" constant="50" id="0SF-HS-9jw"/>
                                         </constraints>
                                     </stackView>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0jq-tN-UBH">
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="qcS-UJ-kDg">
                                         <rect key="frame" x="0.0" y="300" width="390" height="300"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                    </view>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </stackView>
                                 </subviews>
                             </stackView>
                         </subviews>
@@ -66,6 +66,14 @@
                         </constraints>
                     </view>
                     <size key="freeformSize" width="390" height="600"/>
+                    <connections>
+                        <outlet property="currentWeatherContainerView" destination="mCm-Ss-I7c" id="NZf-UJ-Tnq"/>
+                        <outlet property="tempRecordHeightConstraint" destination="0SF-HS-9jw" id="tCM-3U-kxp"/>
+                        <outlet property="tempRecordStackView" destination="qcS-UJ-kDg" id="jOc-6h-a5H"/>
+                        <outlet property="themeImageView" destination="lgZ-eN-AYv" id="foU-yd-Ohk"/>
+                        <outlet property="themeImageViewContainer" destination="Kg9-yn-QkQ" id="5jt-Jj-DDf"/>
+                        <outlet property="themeImageViewHeightConstraint" destination="o2U-ud-2gl" id="xi6-DZ-ga9"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
