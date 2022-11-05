@@ -12,12 +12,14 @@ class DashboardViewController: UIViewController {
     
     //MARK: Properties
     
-    var mainTempDescriptionStackView = UIStackView(frame: .init(x: 0, y: 0, width: 0, height: 0))
+    var mainTempDescriptionStackView = UIStackView(frame:.zero)
 
-    
     var temperatureLabel = UILabel()
     var weatherDescriptionLabel = UILabel()
     
+    var maxRecordTemp = CurrentTempRecordView(frame: .zero)
+    var currentRecordTemp = CurrentTempRecordView(frame: .zero)
+    var minRecordTemp = CurrentTempRecordView(frame: .zero)
 
     //MARK: dashboard views
     @IBOutlet weak var themeImageViewContainer: UIView!
@@ -44,8 +46,6 @@ class DashboardViewController: UIViewController {
         temperatureLabel.text = "80"
         weatherDescriptionLabel.text = "Sunny"
         
-        
-        
         view.backgroundColor = UIColor(named: "forest_sunny")
         themeImageView.image = UIImage(named: "forest_sunny")
         
@@ -54,9 +54,11 @@ class DashboardViewController: UIViewController {
     //:- design dynamic set up
     override func viewWillAppear(_ animated: Bool) {
         themeImageViewHeightConstraint.constant = viewHeight * 0.4
-        tempRecordHeightConstraint.constant = viewHeight * 1
+        tempRecordHeightConstraint.constant = viewHeight * 0.06
+        
         
         setUpCurrentTemperatureView()
+        setUpRecordViews()
     }
     
     //MARK: - setting up the temperature view
@@ -85,6 +87,23 @@ class DashboardViewController: UIViewController {
         mainTempDescriptionStackView.centerYAnchor.constraint(equalTo: currentWeatherContainerView.centerYAnchor).isActive = true
     }
     
+    //MARK: - setting up the record view
+    func setUpRecordViews(){
+        
+        maxRecordTemp.tempLabel.text = "min"
+        maxRecordTemp.temp.text = "\(32)"
+        
+        minRecordTemp.tempLabel.text = "current"
+        minRecordTemp.temp.text = "\(35)"
+        
+        currentRecordTemp.tempLabel.text = "min"
+        currentRecordTemp.temp.text = "\(38)"
+        
+        tempRecordStackView.addArrangedSubview(minRecordTemp)
+        tempRecordStackView.addArrangedSubview(currentRecordTemp)
+        tempRecordStackView.addArrangedSubview(maxRecordTemp)
+        
+    }
     
 
 }
