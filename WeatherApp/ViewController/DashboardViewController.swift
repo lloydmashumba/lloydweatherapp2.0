@@ -27,12 +27,14 @@ class DashboardViewController: UIViewController {
     @IBOutlet weak var currentWeatherContainerView: UIView!
     @IBOutlet weak var tempRecordStackView: UIStackView!
     
+    @IBOutlet weak var forcastStackView: UIStackView!
     
     //MARK: constraints
     @IBOutlet weak var themeImageViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var tempRecordHeightConstraint: NSLayoutConstraint!
     
     
+    @IBOutlet weak var forecastViewHeightConstraint: NSLayoutConstraint!
     private var viewHeight : CGFloat {
         UIScreen.main.bounds.height
     }
@@ -49,12 +51,24 @@ class DashboardViewController: UIViewController {
         view.backgroundColor = UIColor(named: "forest_sunny")
         themeImageView.image = UIImage(named: "forest_sunny")
         
+        let days = ["Sunday","Monday","Tuesday","Wednesday","Thursday"]
+        
+        for i in 0..<days.count {
+            let forcast = ForecastView(frame: .init(x: 0, y: 0, width: 0, height: viewHeight * 0.6))
+            forcast.tempLabel.text = "\(Int.random(in: 30 ... 35))"
+            forcast.dayLabel.text = days[i]
+            
+            forcastStackView.addArrangedSubview(forcast)
+        }
+        
+        
     }
 
     //:- design dynamic set up
     override func viewWillAppear(_ animated: Bool) {
         themeImageViewHeightConstraint.constant = viewHeight * 0.4
         tempRecordHeightConstraint.constant = viewHeight * 0.06
+        forecastViewHeightConstraint.constant = viewHeight * 0.3
         
         
         setUpCurrentTemperatureView()

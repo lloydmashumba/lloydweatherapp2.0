@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="D9E-vI-QUr">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="D9E-vI-QUr">
                                 <rect key="frame" x="0.0" y="0.0" width="390" height="600"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kg9-yn-QkQ">
@@ -44,16 +44,30 @@
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="mRl-eA-9Te">
-                                        <rect key="frame" x="0.0" y="250" width="390" height="50"/>
+                                        <rect key="frame" x="0.0" y="252" width="390" height="50"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="0SF-HS-9jw"/>
                                         </constraints>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="qcS-UJ-kDg">
-                                        <rect key="frame" x="0.0" y="300" width="390" height="300"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eBZ-PB-HKn">
+                                        <rect key="frame" x="0.0" y="304" width="390" height="1"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="oh8-fQ-GHN"/>
+                                        </constraints>
+                                    </view>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="qcS-UJ-kDg">
+                                        <rect key="frame" x="0.0" y="307" width="390" height="200"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="200" id="jtf-oA-i09"/>
+                                        </constraints>
                                     </stackView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vEE-q1-C7v">
+                                        <rect key="frame" x="0.0" y="509" width="390" height="91"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
                                 </subviews>
                             </stackView>
                         </subviews>
@@ -69,6 +83,8 @@
                     <size key="freeformSize" width="390" height="600"/>
                     <connections>
                         <outlet property="currentWeatherContainerView" destination="mCm-Ss-I7c" id="NZf-UJ-Tnq"/>
+                        <outlet property="forcastStackView" destination="qcS-UJ-kDg" id="VCe-o6-nsp"/>
+                        <outlet property="forecastViewHeightConstraint" destination="jtf-oA-i09" id="YSC-Nc-1R2"/>
                         <outlet property="tempRecordHeightConstraint" destination="0SF-HS-9jw" id="tCM-3U-kxp"/>
                         <outlet property="tempRecordStackView" destination="mRl-eA-9Te" id="bxB-Rf-y8P"/>
                         <outlet property="themeImageView" destination="lgZ-eN-AYv" id="foU-yd-Ohk"/>
