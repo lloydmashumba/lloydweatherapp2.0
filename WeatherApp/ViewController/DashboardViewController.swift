@@ -6,62 +6,82 @@
 //
 
 import UIKit
+import Combine
 
 class DashboardViewController: UIViewController {
     
     
     //MARK: Properties
+    private var viewHeight : CGFloat {
+        UIScreen.main.bounds.height
+    }
+    private var input = PassthroughSubject<DashboardViewModel.Input,Never>()
+    private var dashboardViewModel : DashboardViewModel?
+    private var cancellables = Set<AnyCancellable>()
     
+    //:-Views
+    //current weather
     var mainTempDescriptionStackView = UIStackView(frame:.zero)
-
     var temperatureLabel = UILabel()
     var weatherDescriptionLabel = UILabel()
-    
     var maxRecordTemp = CurrentTempRecordView(frame: .zero)
     var currentRecordTemp = CurrentTempRecordView(frame: .zero)
     var minRecordTemp = CurrentTempRecordView(frame: .zero)
+    
+    var tempRecordViews : [CurrentTempRecordView] {
+        [minRecordTemp,currentRecordTemp,maxRecordTemp]
+    }
+    //Forecast
+    var forecastDay1 = ForecastView()
+    var forecastDay2 = ForecastView()
+    var forecastDay3 = ForecastView()
+    var forecastDay4 = ForecastView()
+    var forecastDay5 = ForecastView()
+    
+    private var forecastViews : [ForecastView]{
+        [forecastDay1,forecastDay2,forecastDay3,forecastDay4,forecastDay5]
+    }
 
-    //MARK: dashboard views
+    //:-Storyboard Views
     @IBOutlet weak var themeImageViewContainer: UIView!
     @IBOutlet weak var themeImageView: UIImageView!
     @IBOutlet weak var currentWeatherContainerView: UIView!
     @IBOutlet weak var tempRecordStackView: UIStackView!
-    
     @IBOutlet weak var forcastStackView: UIStackView!
-    
-    //MARK: constraints
     @IBOutlet weak var themeImageViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var tempRecordHeightConstraint: NSLayoutConstraint!
-    
-    
     @IBOutlet weak var forecastViewHeightConstraint: NSLayoutConstraint!
-    private var viewHeight : CGFloat {
-        UIScreen.main.bounds.height
-    }
+    @IBOutlet weak var emptyViewHeightConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        dashboardViewModel = DashboardViewModel(service: WeatherMockData())
+        bind()
         mainTempDescriptionStackView.axis = .vertical
         mainTempDescriptionStackView.distribution = .fill
-        
-        temperatureLabel.text = "80"
-        weatherDescriptionLabel.text = "Sunny"
         
         view.backgroundColor = UIColor(named: "forest_sunny")
         themeImageView.image = UIImage(named: "forest_sunny")
         
-        let days = ["Sunday","Monday","Tuesday","Wednesday","Thursday"]
-        
-        for i in 0..<days.count {
-            let forcast = ForecastView(frame: .init(x: 0, y: 0, width: 0, height: viewHeight * 0.6))
-            forcast.tempLabel.text = "\(Int.random(in: 30 ... 35))"
-            forcast.dayLabel.text = days[i]
-            
-            forcastStackView.addArrangedSubview(forcast)
-        }
-        
-        
+    }
+    //MARK: Bind
+    private func bind(){
+        dashboardViewModel?.bind(input: input.eraseToAnyPublisher())
+            .receive(on: DispatchQueue.main)
+            .sink(receiveValue: { [weak self] output in
+                switch output {
+                case .currentWeather(let currentWeather):
+                    self?.handleCurrentWeatherUpdates(currentWeather!)
+                case .forecastWeather(let weatherForecast) :
+                    self?.handleForecastUpdates(weatherForecast!)
+                }
+            })
+            .store(in: &cancellables)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        input.send(.viewDidAppear)
     }
 
     //:- design dynamic set up
@@ -69,14 +89,16 @@ class DashboardViewController: UIViewController {
         themeImageViewHeightConstraint.constant = viewHeight * 0.4
         tempRecordHeightConstraint.constant = viewHeight * 0.06
         forecastViewHeightConstraint.constant = viewHeight * 0.3
-        
+        emptyViewHeightConstraint.constant = viewHeight * 0.07
         
         setUpCurrentTemperatureView()
         setUpRecordViews()
+        setUpWeatherForecastView()
     }
     
-    //MARK: - setting up the temperature view
-    func setUpCurrentTemperatureView(){
+    //MARK: - Current Weather
+    //sets up the current weather views
+    private func setUpCurrentTemperatureView(){
         
         //:- styling temperature lable
         temperatureLabel.textColor = .white
@@ -84,41 +106,87 @@ class DashboardViewController: UIViewController {
         temperatureLabel.shadowOffset = .init(width: 0.2, height: 0.3)
         temperatureLabel.textAlignment = .center
         temperatureLabel.font = .systemFont(ofSize: 60, weight: .heavy)
-        
+        temperatureLabel.accessibilityIdentifier = "temp"
         //:- styling weather description label
         weatherDescriptionLabel.textColor = .white
         weatherDescriptionLabel.textAlignment = .center
         weatherDescriptionLabel.font = .systemFont(ofSize: 40, weight: .bold)
-        
+        weatherDescriptionLabel.accessibilityIdentifier = "condition"
+        //:- adding the views to mainTempDescriptionStackView
         mainTempDescriptionStackView.addArrangedSubview(temperatureLabel)
         mainTempDescriptionStackView.addArrangedSubview(weatherDescriptionLabel)
-        
+        //:-adding mainTempDescriptionStackView to currentWeatherContainerView
         currentWeatherContainerView.addSubview(mainTempDescriptionStackView)
-        
+        //:- constraining mainTempDescriptionStackView to currentWeatherContainerView
         mainTempDescriptionStackView.translatesAutoresizingMaskIntoConstraints = false
-        
         mainTempDescriptionStackView.centerXAnchor.constraint(equalTo: currentWeatherContainerView.centerXAnchor).isActive = true
         mainTempDescriptionStackView.centerYAnchor.constraint(equalTo: currentWeatherContainerView.centerYAnchor).isActive = true
     }
     
-    //MARK: - setting up the record view
-    func setUpRecordViews(){
+    //MARK: - Temp Record
+    //setting up the record view
+    private func setUpRecordViews(){
+        //title to temp record
+        maxRecordTemp.tempLabel.text = "max"
+        minRecordTemp.tempLabel.text = "min"
+        currentRecordTemp.tempLabel.text = "current"
+        //add accessibility identifier to temp
+        currentRecordTemp.temp.accessibilityIdentifier = "tempCurrent"
+        minRecordTemp.temp.accessibilityIdentifier = "tempMin"
+        maxRecordTemp.temp.accessibilityIdentifier = "tempMax"
+        //add the records to the temp record stack view
         
-        maxRecordTemp.tempLabel.text = "min"
-        maxRecordTemp.temp.text = "\(32)"
+        for tempView in tempRecordViews{
+            tempRecordStackView.addArrangedSubview(tempView)
+        }
         
-        minRecordTemp.tempLabel.text = "current"
-        minRecordTemp.temp.text = "\(35)"
         
-        currentRecordTemp.tempLabel.text = "min"
-        currentRecordTemp.temp.text = "\(38)"
         
-        tempRecordStackView.addArrangedSubview(minRecordTemp)
-        tempRecordStackView.addArrangedSubview(currentRecordTemp)
-        tempRecordStackView.addArrangedSubview(maxRecordTemp)
+    }
+    //MARK: Forecast
+    //Sets up a five day forecast view
+    private func setUpWeatherForecastView(){
+        forecastDay1.tempLabel.accessibilityIdentifier = "tempDay1"
+        forecastDay2.tempLabel.accessibilityIdentifier = "tempDay2"
+        forecastDay3.tempLabel.accessibilityIdentifier = "tempDay3"
+        forecastDay4.tempLabel.accessibilityIdentifier = "tempDay4"
+        forecastDay5.tempLabel.accessibilityIdentifier = "tempDay5"
         
+        forecastDay1.dayLabel.accessibilityIdentifier = "day1"
+        forecastDay2.dayLabel.accessibilityIdentifier = "day2"
+        forecastDay3.dayLabel.accessibilityIdentifier = "day3"
+        forecastDay4.dayLabel.accessibilityIdentifier = "day4"
+        forecastDay5.dayLabel.accessibilityIdentifier = "day5"
     }
     
 
+}
+//MARK: Updates
+//methods that will handle view updates
+extension DashboardViewController{
+    
+    //Handles current weather updates
+    private func handleCurrentWeatherUpdates(_ currentWeather: CurrentWeather){
+        currentRecordTemp.temp.text = "\(currentWeather.main.temp)º"
+        minRecordTemp.temp.text = "\(currentWeather.main.temp_min)º"
+        maxRecordTemp.temp.text = "\(currentWeather.main.temp_max)º"
+        temperatureLabel.text = "\(currentWeather.main.temp)º"
+        weatherDescriptionLabel.text = currentWeather.weather[0].main == "Rain" ? "Rainny" : "Sunny"
+    }
+    
+    private func handleForecastUpdates(_ forecast : [String : ForecastModel]){
+        let sortedForecast = forecast.sorted(by:{$0.value.dt < $1.value.dt})
+        for i in 0 ..< sortedForecast.count{
+            let forecastView = forecastViews[i]
+            print(sortedForecast[i].value)
+            forecastView.heightAnchor.constraint(equalToConstant: viewHeight * 0.06).isActive = true
+            forecastView.tempLabel.text = "\(sortedForecast[i].value.temp)º"
+            forecastView.dayLabel.text = sortedForecast[i].key
+            forecastView.weatherIconView.image = UIImage(named: sortedForecast[i].value.conditionIcon)
+
+            forcastStackView.addArrangedSubview(forecastView)
+        }
+    }
+    
 }
 

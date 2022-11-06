@@ -7,35 +7,62 @@
 
 import XCTest
 
-final class WeatherAppUITests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-
-        // In UI tests it is usually best to stop immediately when a failure occurs.
+class test_when_dashboard_succefully_load: XCTestCase {
+    
+    private var dashboardElements : DashboardElements!
+    
+    override func setUp() {
+        let app =  XCUIApplication()
         continueAfterFailure = false
-
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // UI tests must launch the application that they test.
-        let app = XCUIApplication()
+        dashboardElements = DashboardElements(app: app)
         app.launch()
-
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        _ = dashboardElements.temperature.waitForExistence(timeout: 5)
     }
-
-    func testLaunchPerformance() throws {
-        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
-            // This measures how long it takes to launch your application.
-            measure(metrics: [XCTApplicationLaunchMetric()]) {
-                XCUIApplication().launch()
-            }
-        }
+    
+    func test_when_current_weather_successfully_loads(){
+        
+        let temp = dashboardElements.temperature.label
+        XCTAssertEqual("26.88º", temp)
+        
+        let condition = dashboardElements.weatherCondition.label
+        XCTAssertEqual("Rainny", condition)
+        
+        let currentTemp = dashboardElements.tempCurrent.label
+        XCTAssertEqual("26.88º", currentTemp)
+        
+        let tempMin = dashboardElements.tempMin.label
+        XCTAssertEqual("26.88º", tempMin)
+        
+        let tempMax = dashboardElements.tempMax.label
+        XCTAssertEqual("26.88º", tempMax)
+        
+    }
+    
+    func test_when_forecast_weather_successfully_loads(){
+        //day1 tests
+        let day1 = dashboardElements.day1.label
+        let tempDay1 = dashboardElements.tempDay1.label
+        XCTAssertEqual("Monday", day1)
+        XCTAssertEqual("19.37º", tempDay1)
+        //day2 tests
+        let day2 = dashboardElements.day2.label
+        let tempDay2 = dashboardElements.tempDay2.label
+        XCTAssertEqual("Tuesday", day2)
+        XCTAssertEqual("19.19º", tempDay2)
+        //day3 tests
+        let day3 = dashboardElements.day3.label
+        let tempDay3 = dashboardElements.tempDay3.label
+        XCTAssertEqual("Wednesday", day3)
+        XCTAssertEqual("19.72º", tempDay3)
+        //day4 tests
+        let day4 = dashboardElements.day4.label
+        let tempDay4 = dashboardElements.tempDay4.label
+        XCTAssertEqual("Thursday", day4)
+        XCTAssertEqual("16.91º", tempDay4)
+        //day5 tests
+        let day5 = dashboardElements.day5.label
+        let tempDay5 = dashboardElements.tempDay5.label
+        XCTAssertEqual("Friday", day5)
+        XCTAssertEqual("20.37º", tempDay5)
     }
 }
