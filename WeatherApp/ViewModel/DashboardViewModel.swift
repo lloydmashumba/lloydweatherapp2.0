@@ -17,6 +17,7 @@ class DashboardViewModel {
     //output sent to the DashboardViewController
     enum Output{
         case currentWeather(CurrentWeather?)
+        case forecastWeather(WeatherForecast?)
     }
     let service : WeatherService
     
@@ -35,6 +36,7 @@ class DashboardViewModel {
             switch value {
             case .viewDidAppear :
                 self?.handleGetCurrentWeather()
+                self?.handleGetWeatherForecast()
             }
         }
         .store(in: &cancellables)
@@ -50,6 +52,19 @@ class DashboardViewModel {
                 }
             } receiveValue: { [weak self] result in
                 self?.output.send(.currentWeather(result))
+            }
+            .store(in: &cancellables)
+
+    }
+    //MARK: Weather Forecast Call
+    //handles response for current weather call
+    private func handleGetWeatherForecast(){
+        service.fetchWeatherForecast().sink { completion in
+                if case .failure(let error) = completion{
+                    print(error.localizedDescription)
+                }
+            } receiveValue: { [weak self] result in
+                self?.output.send(.forecastWeather(result))
             }
             .store(in: &cancellables)
 

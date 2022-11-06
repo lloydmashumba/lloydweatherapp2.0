@@ -15,7 +15,6 @@ class ForecastView: UIView {
     private(set) var tempLabel = UILabel()
     
     private var forcastStack = UIStackView()
-    private let iconContainer = UIView(frame: .zero)
 
 
     override init(frame: CGRect) {
@@ -26,8 +25,8 @@ class ForecastView: UIView {
         
         forcastStack.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         forcastStack.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        forcastStack.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 20).isActive = true
-        forcastStack.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        forcastStack.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+        
     }
     
     required init?(coder: NSCoder) {
@@ -57,10 +56,9 @@ class ForecastView: UIView {
         forcastStack.alignment = .fill
         forcastStack.translatesAutoresizingMaskIntoConstraints = false
         forcastStack.addArrangedSubview(dayLabel)
-                iconContainer.backgroundColor = .yellow
+    
         weatherIconView.image = UIImage(named: "sunny")
         weatherIconView.contentMode = .scaleAspectFit
-        weatherIconView.frame = .init(x: 0, y: 0, width: 50, height: 50)
         forcastStack.addArrangedSubview(weatherIconView)//getImageContainer())
         forcastStack.addArrangedSubview(tempLabel)
     }

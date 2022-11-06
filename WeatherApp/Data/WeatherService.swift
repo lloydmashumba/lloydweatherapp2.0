@@ -11,4 +11,5 @@ import Combine
 protocol WeatherService {
     
     func fetchCurrentWeather() -> AnyPublisher<CurrentWeather?,DataError>
+    func fetchWeatherForecast() -> AnyPublisher<WeatherForecast?,DataError>
 }

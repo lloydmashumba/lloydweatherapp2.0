@@ -47,9 +47,8 @@ class DashboardViewController: UIViewController {
     @IBOutlet weak var themeImageViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var tempRecordHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var forecastViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var emptyViewHeightConstraint: NSLayoutConstraint!
     
-    
-  
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -70,6 +69,8 @@ class DashboardViewController: UIViewController {
                 switch output {
                 case .currentWeather(let currentWeather):
                     self?.handleCurrentWeatherUpdates(currentWeather!)
+                case .forecastWeather(let forecastWeather) :
+                    print(forecastWeather!)
                 }
             })
             .store(in: &cancellables)
@@ -84,6 +85,7 @@ class DashboardViewController: UIViewController {
         themeImageViewHeightConstraint.constant = viewHeight * 0.4
         tempRecordHeightConstraint.constant = viewHeight * 0.06
         forecastViewHeightConstraint.constant = viewHeight * 0.3
+        emptyViewHeightConstraint.constant = viewHeight * 0.07
         
         setUpCurrentTemperatureView()
         setUpRecordViews()
@@ -171,6 +173,7 @@ extension DashboardViewController{
         let days = ["Sunday","Monday","Tuesday","Wednesday","Thursday"]
         for i in 0..<days.count {
             let forcast = forecastViews[i]
+            forcast.heightAnchor.constraint(equalToConstant: viewHeight * 0.06).isActive = true
             forcast.tempLabel.text = "\(Int.random(in: 30 ... 35))º"
             forcast.dayLabel.text = days[i]
 

@@ -8,20 +8,28 @@
 import Foundation
 
 struct CurrentWeather : Decodable{
-    var coord : Coordinate
+    var coord : Coordinate?
     var weather : [Weather]
-    var base : String
+    var base : String?
     var main : Main
     var visibility : Int
     var wind : Wind
-    var rain : [String:Double]
+    var rain : [String : Double]?
     var clouds : Clouds
     var dt : Int
     var sys : Sys
-    var timezone : Int
-    var id : Int
-    var name : String
-    var cod : Int
+    var timezone : Int?
+    var id : Int?
+    var name : String?
+    var cod : Int?
+    var dt_txt : String?
+}
+
+struct WeatherForecast : Decodable {
+    var cod : String
+    var message : Int
+    var cnt : Int
+    var list : [CurrentWeather]
 }
 
 struct Coordinate : Decodable{
@@ -58,8 +66,9 @@ struct Clouds : Decodable{
 }
 
 struct Sys : Decodable{
-    var country : String
-    var sunrise : Int
-    var sunset : Int
+    var pod : String?
+    var country : String?
+    var sunrise : Int?
+    var sunset : Int?
     
 }

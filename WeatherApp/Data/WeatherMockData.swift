@@ -39,6 +39,7 @@ extension Bundle{
 class WeatherMockData : WeatherService{
     
     private var currentWeatherPublisher = CurrentValueSubject<CurrentWeather?,DataError>(nil)
+    private var forecastWeatherPublisher = CurrentValueSubject<WeatherForecast?,DataError>(nil)
     
     func fetchCurrentWeather() -> AnyPublisher<CurrentWeather?, DataError> {
         do{
@@ -57,4 +58,20 @@ class WeatherMockData : WeatherService{
         return currentWeatherPublisher.eraseToAnyPublisher()
     }
     
+    func fetchWeatherForecast() -> AnyPublisher<WeatherForecast?, DataError> {
+        do{
+            let data : WeatherForecast = try Bundle.main.loadDataFrom(file: "forecast_weather.json")
+            forecastWeatherPublisher.send(data)
+            
+        }
+        catch{
+            
+            let er = error as! DataError
+            if case .mockDataError(let desc) = er {
+                print(desc)
+            }
+            forecastWeatherPublisher.send(completion: .failure(error as! DataError) )
+        }
+        return forecastWeatherPublisher.eraseToAnyPublisher()
+    }
 }

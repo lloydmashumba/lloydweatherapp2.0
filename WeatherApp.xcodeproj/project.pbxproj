@@ -25,6 +25,7 @@
 		6E592A56291765D7007488DF /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E592A55291765D7007488DF /* WeatherService.swift */; };
 		6E592A5829177DC9007488DF /* WeatherMockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E592A5729177DC9007488DF /* WeatherMockData.swift */; };
 		6E592A5A29178262007488DF /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E592A5929178262007488DF /* Constants.swift */; };
+		6E592A5B2917EC1C007488DF /* forecast_weather.json in Resources */ = {isa = PBXBuildFile; fileRef = 6E453F4629166BAF00E25B4C /* forecast_weather.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -325,6 +326,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E36DBC1291441CC003BB177 /* LaunchScreen.storyboard in Resources */,
+				6E592A5B2917EC1C007488DF /* forecast_weather.json in Resources */,
 				6E36DBBE291441CC003BB177 /* Assets.xcassets in Resources */,
 				6E36DBE929155033003BB177 /* current_weather.json in Resources */,
 				6E36DBBC291441C9003BB177 /* Main.storyboard in Resources */,
