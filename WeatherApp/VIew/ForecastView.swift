@@ -27,7 +27,7 @@ class ForecastView: UIView {
         forcastStack.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         forcastStack.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         forcastStack.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 20).isActive = true
-        forcastStack.trailingAnchor.constraint(equalTo: self.trailingAnchor,constant: -20).isActive = true
+        forcastStack.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
     }
     
     required init?(coder: NSCoder) {
@@ -44,7 +44,7 @@ class ForecastView: UIView {
         //temp
         tempLabel.font = .systemFont(ofSize: 20, weight: .bold)
         tempLabel.textColor = .white
-        tempLabel.textAlignment = .right
+        tempLabel.textAlignment = .center
     }
     
     

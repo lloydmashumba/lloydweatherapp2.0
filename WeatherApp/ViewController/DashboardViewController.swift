@@ -84,11 +84,13 @@ class DashboardViewController: UIViewController {
         temperatureLabel.shadowOffset = .init(width: 0.2, height: 0.3)
         temperatureLabel.textAlignment = .center
         temperatureLabel.font = .systemFont(ofSize: 60, weight: .heavy)
+        temperatureLabel.accessibilityIdentifier = "temp"
         
         //:- styling weather description label
         weatherDescriptionLabel.textColor = .white
         weatherDescriptionLabel.textAlignment = .center
         weatherDescriptionLabel.font = .systemFont(ofSize: 40, weight: .bold)
+        weatherDescriptionLabel.accessibilityIdentifier = "condition"
         
         mainTempDescriptionStackView.addArrangedSubview(temperatureLabel)
         mainTempDescriptionStackView.addArrangedSubview(weatherDescriptionLabel)
@@ -113,6 +115,9 @@ class DashboardViewController: UIViewController {
         currentRecordTemp.tempLabel.text = "min"
         currentRecordTemp.temp.text = "\(38)"
         
+        currentRecordTemp.tempLabel.accessibilityIdentifier = "tempCurrent"
+        minRecordTemp.tempLabel.accessibilityIdentifier = "tempMin"
+        maxRecordTemp.tempLabel.accessibilityIdentifier = "tempMax"
         tempRecordStackView.addArrangedSubview(minRecordTemp)
         tempRecordStackView.addArrangedSubview(currentRecordTemp)
         tempRecordStackView.addArrangedSubview(maxRecordTemp)
