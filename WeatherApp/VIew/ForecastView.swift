@@ -64,16 +64,10 @@ class ForecastView: UIView {
         forcastStack.addArrangedSubview(weatherIconView)//getImageContainer())
         forcastStack.addArrangedSubview(tempLabel)
     }
-    //MARK: Icon
-    //:set up Image view and return the container
-//    private func getImageContainer() -> UIView{
-//
-//        //iconContainer.addSubview(weatherIconView)
-//        //
-//        //weatherIconView.topAnchor.constraint(equalTo: iconContainer.topAnchor).isActive = true
-//        //weatherIconView.bottomAnchor.constraint(equalTo: iconContainer.bottomAnchor).isActive = true
-//        //weatherIconView.centerXAnchor.constraint(equalTo: iconContainer.centerXAnchor).isActive = true
-////weatherIconView.centerYAnchor.constraint(equalTo: iconContainer.centerYAnchor).isActive = true
-//        return iconContainer
-//    }
+}
+
+extension ForecastView {
+    convenience init(){
+        self.init(frame: .zero)
+    }
 }
