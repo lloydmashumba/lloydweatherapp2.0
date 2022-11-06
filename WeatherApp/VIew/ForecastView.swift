@@ -43,7 +43,7 @@ class ForecastView: UIView {
         //temp
         tempLabel.font = .systemFont(ofSize: 20, weight: .bold)
         tempLabel.textColor = .white
-        tempLabel.textAlignment = .center
+        tempLabel.textAlignment = .right
     }
     
     
@@ -56,10 +56,8 @@ class ForecastView: UIView {
         forcastStack.alignment = .fill
         forcastStack.translatesAutoresizingMaskIntoConstraints = false
         forcastStack.addArrangedSubview(dayLabel)
-    
-        weatherIconView.image = UIImage(named: "sunny")
         weatherIconView.contentMode = .scaleAspectFit
-        forcastStack.addArrangedSubview(weatherIconView)//getImageContainer())
+        forcastStack.addArrangedSubview(weatherIconView)
         forcastStack.addArrangedSubview(tempLabel)
     }
 }

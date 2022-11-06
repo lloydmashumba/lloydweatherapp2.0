@@ -27,6 +27,10 @@ class DashboardViewController: UIViewController {
     var maxRecordTemp = CurrentTempRecordView(frame: .zero)
     var currentRecordTemp = CurrentTempRecordView(frame: .zero)
     var minRecordTemp = CurrentTempRecordView(frame: .zero)
+    
+    var tempRecordViews : [CurrentTempRecordView] {
+        [minRecordTemp,currentRecordTemp,maxRecordTemp]
+    }
     //Forecast
     var forecastDay1 = ForecastView()
     var forecastDay2 = ForecastView()
@@ -69,8 +73,8 @@ class DashboardViewController: UIViewController {
                 switch output {
                 case .currentWeather(let currentWeather):
                     self?.handleCurrentWeatherUpdates(currentWeather!)
-                case .forecastWeather(let forecastWeather) :
-                    print(forecastWeather!)
+                case .forecastWeather(let weatherForecast) :
+                    self?.handleForecastUpdates(weatherForecast!)
                 }
             })
             .store(in: &cancellables)
@@ -123,17 +127,20 @@ class DashboardViewController: UIViewController {
     //setting up the record view
     private func setUpRecordViews(){
         //title to temp record
-        maxRecordTemp.tempLabel.text = "min"
-        minRecordTemp.tempLabel.text = "current"
-        currentRecordTemp.tempLabel.text = "min"
+        maxRecordTemp.tempLabel.text = "max"
+        minRecordTemp.tempLabel.text = "min"
+        currentRecordTemp.tempLabel.text = "current"
         //add accessibility identifier to temp
         currentRecordTemp.temp.accessibilityIdentifier = "tempCurrent"
         minRecordTemp.temp.accessibilityIdentifier = "tempMin"
         maxRecordTemp.temp.accessibilityIdentifier = "tempMax"
         //add the records to the temp record stack view
-        tempRecordStackView.addArrangedSubview(minRecordTemp)
-        tempRecordStackView.addArrangedSubview(currentRecordTemp)
-        tempRecordStackView.addArrangedSubview(maxRecordTemp)
+        
+        for tempView in tempRecordViews{
+            tempRecordStackView.addArrangedSubview(tempView)
+        }
+        
+        
         
     }
     //MARK: Forecast
@@ -150,8 +157,6 @@ class DashboardViewController: UIViewController {
         forecastDay3.dayLabel.accessibilityIdentifier = "day3"
         forecastDay4.dayLabel.accessibilityIdentifier = "day4"
         forecastDay5.dayLabel.accessibilityIdentifier = "day5"
-        
-        handleForecastUpdates()
     }
     
 
@@ -169,15 +174,17 @@ extension DashboardViewController{
         weatherDescriptionLabel.text = currentWeather.weather[0].main == "Rain" ? "Rainny" : "Sunny"
     }
     
-    private func handleForecastUpdates(){
-        let days = ["Sunday","Monday","Tuesday","Wednesday","Thursday"]
-        for i in 0..<days.count {
-            let forcast = forecastViews[i]
-            forcast.heightAnchor.constraint(equalToConstant: viewHeight * 0.06).isActive = true
-            forcast.tempLabel.text = "\(Int.random(in: 30 ... 35))º"
-            forcast.dayLabel.text = days[i]
+    private func handleForecastUpdates(_ forecast : [String : ForecastModel]){
+        let sortedForecast = forecast.sorted(by:{$0.value.dt < $1.value.dt})
+        for i in 0 ..< sortedForecast.count{
+            let forecastView = forecastViews[i]
+            print(sortedForecast[i].value)
+            forecastView.heightAnchor.constraint(equalToConstant: viewHeight * 0.06).isActive = true
+            forecastView.tempLabel.text = "\(sortedForecast[i].value.temp)º"
+            forecastView.dayLabel.text = sortedForecast[i].key
+            forecastView.weatherIconView.image = UIImage(named: sortedForecast[i].value.conditionIcon)
 
-            forcastStackView.addArrangedSubview(forcast)
+            forcastStackView.addArrangedSubview(forecastView)
         }
     }
     

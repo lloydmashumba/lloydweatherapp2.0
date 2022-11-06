@@ -16,7 +16,7 @@ struct CurrentWeather : Decodable{
     var wind : Wind
     var rain : [String : Double]?
     var clouds : Clouds
-    var dt : Int
+    var dt : Double
     var sys : Sys
     var timezone : Int?
     var id : Int?
