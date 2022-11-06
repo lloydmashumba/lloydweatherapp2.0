@@ -58,8 +58,6 @@ struct Clouds : Decodable{
 }
 
 struct Sys : Decodable{
-    var id : Int
-    var type : Int
     var country : String
     var sunrise : Int
     var sunset : Int

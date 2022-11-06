@@ -21,6 +21,10 @@
 		6E453F42291648B400E25B4C /* CurrentTempRecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E453F41291648B400E25B4C /* CurrentTempRecordView.swift */; };
 		6E453F4829166C3C00E25B4C /* ForecastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E453F4729166C3C00E25B4C /* ForecastView.swift */; };
 		6E453F4B2916D2A700E25B4C /* DashboardElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E453F4A2916D2A700E25B4C /* DashboardElements.swift */; };
+		6E592A53291763A3007488DF /* DashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E592A52291763A3007488DF /* DashboardViewModel.swift */; };
+		6E592A56291765D7007488DF /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E592A55291765D7007488DF /* WeatherService.swift */; };
+		6E592A5829177DC9007488DF /* WeatherMockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E592A5729177DC9007488DF /* WeatherMockData.swift */; };
+		6E592A5A29178262007488DF /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E592A5929178262007488DF /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +64,10 @@
 		6E453F4629166BAF00E25B4C /* forecast_weather.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = forecast_weather.json; path = ../../../../../Desktop/forecast_weather.json; sourceTree = "<group>"; };
 		6E453F4729166C3C00E25B4C /* ForecastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastView.swift; sourceTree = "<group>"; };
 		6E453F4A2916D2A700E25B4C /* DashboardElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardElements.swift; sourceTree = "<group>"; };
+		6E592A52291763A3007488DF /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
+		6E592A55291765D7007488DF /* WeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherService.swift; sourceTree = "<group>"; };
+		6E592A5729177DC9007488DF /* WeatherMockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherMockData.swift; sourceTree = "<group>"; };
+		6E592A5929178262007488DF /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +118,7 @@
 		6E36DBB3291441C9003BB177 /* WeatherApp */ = {
 			isa = PBXGroup;
 			children = (
+				6E592A5129176354007488DF /* ViewModel */,
 				6E453F43291650D700E25B4C /* VIew */,
 				6E36DBEA29155063003BB177 /* Model */,
 				6E36DBE629154F6A003BB177 /* Data */,
@@ -146,6 +155,7 @@
 			children = (
 				6E36DBB4291441C9003BB177 /* AppDelegate.swift */,
 				6E36DBB6291441C9003BB177 /* SceneDelegate.swift */,
+				6E592A5929178262007488DF /* Constants.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -162,6 +172,8 @@
 			isa = PBXGroup;
 			children = (
 				6E36DBE729154F73003BB177 /* Mock */,
+				6E592A55291765D7007488DF /* WeatherService.swift */,
+				6E592A5729177DC9007488DF /* WeatherMockData.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -198,6 +210,14 @@
 				6E453F4A2916D2A700E25B4C /* DashboardElements.swift */,
 			);
 			path = elements;
+			sourceTree = "<group>";
+		};
+		6E592A5129176354007488DF /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				6E592A52291763A3007488DF /* DashboardViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -332,12 +352,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E592A56291765D7007488DF /* WeatherService.swift in Sources */,
 				6E36DBEC29155112003BB177 /* Weather.swift in Sources */,
 				6E36DBB9291441C9003BB177 /* DashboardViewController.swift in Sources */,
 				6E36DBB5291441C9003BB177 /* AppDelegate.swift in Sources */,
 				6E36DBB7291441C9003BB177 /* SceneDelegate.swift in Sources */,
+				6E592A5A29178262007488DF /* Constants.swift in Sources */,
 				6E453F42291648B400E25B4C /* CurrentTempRecordView.swift in Sources */,
 				6E453F4829166C3C00E25B4C /* ForecastView.swift in Sources */,
+				6E592A53291763A3007488DF /* DashboardViewModel.swift in Sources */,
+				6E592A5829177DC9007488DF /* WeatherMockData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

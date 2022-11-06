@@ -6,11 +6,15 @@
 //
 
 import UIKit
+import Combine
 
 class DashboardViewController: UIViewController {
     
     
     //MARK: Properties
+    private var input = PassthroughSubject<DashboardViewModel.Input,Never>()
+    private var dashboardViewModel : DashboardViewModel?
+    private var cancellables = Set<AnyCancellable>()
     
     var mainTempDescriptionStackView = UIStackView(frame:.zero)
 
@@ -42,26 +46,39 @@ class DashboardViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        dashboardViewModel = DashboardViewModel(service: WeatherMockData())
+        bind()
         mainTempDescriptionStackView.axis = .vertical
         mainTempDescriptionStackView.distribution = .fill
-        
-        temperatureLabel.text = "80"
-        weatherDescriptionLabel.text = "Sunny"
         
         view.backgroundColor = UIColor(named: "forest_sunny")
         themeImageView.image = UIImage(named: "forest_sunny")
         
-        let days = ["Sunday","Monday","Tuesday","Wednesday","Thursday"]
+//        let days = ["Sunday","Monday","Tuesday","Wednesday","Thursday"]
+//
+//        for i in 0..<days.count {
+//            let forcast = ForecastView(frame: .init(x: 0, y: 0, width: 0, height: viewHeight * 0.6))
+//            forcast.tempLabel.text = "\(Int.random(in: 30 ... 35))"
+//            forcast.dayLabel.text = days[i]
+//
+//            forcastStackView.addArrangedSubview(forcast)
+//        }
         
-        for i in 0..<days.count {
-            let forcast = ForecastView(frame: .init(x: 0, y: 0, width: 0, height: viewHeight * 0.6))
-            forcast.tempLabel.text = "\(Int.random(in: 30 ... 35))"
-            forcast.dayLabel.text = days[i]
-            
-            forcastStackView.addArrangedSubview(forcast)
-        }
-        
-        
+    }
+    private func bind(){
+        dashboardViewModel?.bind(input: input.eraseToAnyPublisher())
+            .receive(on: DispatchQueue.main)
+            .sink(receiveValue: { [weak self] output in
+                switch output {
+                case .currentWeather(let currentWeather):
+                    self?.handleCurrentWeatherUpdates(currentWeather!)
+                }
+            })
+            .store(in: &cancellables)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        input.send(.viewDidAppear)
     }
 
     //:- design dynamic set up
@@ -69,7 +86,6 @@ class DashboardViewController: UIViewController {
         themeImageViewHeightConstraint.constant = viewHeight * 0.4
         tempRecordHeightConstraint.constant = viewHeight * 0.06
         forecastViewHeightConstraint.constant = viewHeight * 0.3
-        
         
         setUpCurrentTemperatureView()
         setUpRecordViews()
@@ -107,17 +123,12 @@ class DashboardViewController: UIViewController {
     func setUpRecordViews(){
         
         maxRecordTemp.tempLabel.text = "min"
-        maxRecordTemp.temp.text = "\(32)"
-        
         minRecordTemp.tempLabel.text = "current"
-        minRecordTemp.temp.text = "\(35)"
-        
         currentRecordTemp.tempLabel.text = "min"
-        currentRecordTemp.temp.text = "\(38)"
-        
-        currentRecordTemp.tempLabel.accessibilityIdentifier = "tempCurrent"
-        minRecordTemp.tempLabel.accessibilityIdentifier = "tempMin"
-        maxRecordTemp.tempLabel.accessibilityIdentifier = "tempMax"
+
+        currentRecordTemp.temp.accessibilityIdentifier = "tempCurrent"
+        minRecordTemp.temp.accessibilityIdentifier = "tempMin"
+        maxRecordTemp.temp.accessibilityIdentifier = "tempMax"
         tempRecordStackView.addArrangedSubview(minRecordTemp)
         tempRecordStackView.addArrangedSubview(currentRecordTemp)
         tempRecordStackView.addArrangedSubview(maxRecordTemp)
@@ -125,5 +136,19 @@ class DashboardViewController: UIViewController {
     }
     
 
+}
+//MARK: Updates
+//methods that will handle view updates
+extension DashboardViewController{
+    
+    //Handles current weather updates
+    private func handleCurrentWeatherUpdates(_ currentWeather: CurrentWeather){
+        currentRecordTemp.temp.text = "\(currentWeather.main.temp)º"
+        minRecordTemp.temp.text = "\(currentWeather.main.temp_min)º"
+        maxRecordTemp.temp.text = "\(currentWeather.main.temp_max)º"
+        temperatureLabel.text = "\(currentWeather.main.temp)º"
+        weatherDescriptionLabel.text = currentWeather.weather[0].main == "Rain" ? "Rainny" : "Sunny"
+    }
+    
 }
 
