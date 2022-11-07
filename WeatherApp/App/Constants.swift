@@ -6,6 +6,9 @@
 //
 
 import Foundation
+import UIKit
+
+let appDelelagate = UIApplication.shared.delegate as! AppDelegate
 
 enum DataError : Error{
     case mockDataError(String)
