@@ -26,12 +26,19 @@ class FavouriteLocationViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        favouriteLocationTableView.rowHeight = 60
+        favouriteLocationTableView.separatorColor = .clear
         favouriteLocationContainerView.backgroundColor = UIColor(named: "forest_sunny")
         bind()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.tintColor = .white
+        navigationItem.title = "Favourites"
+    }
     override func viewDidAppear(_ animated: Bool) {
         input.send(.viewDidAppear)
+        
     }
     
     //MARK: Bind
@@ -65,9 +72,12 @@ extension FavouriteLocationViewController:UITableViewDataSource{
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "FavouriteLocationTableViewCell") as? FavouriteLocationTableViewCell else {
             return UITableViewCell()
         }
-        cell.city_name.text = location.city
+        cell.city_name.text = "\(location.city!),\(location.country_code!)"
+        cell.coord.text = "[\(location.coord!.lat),\(location.coord!.lon)]"
+        cell.time.text = "sunset \(location.sunset) | \(location.sunrise)"
         return cell
     }
+    
     
     
 }

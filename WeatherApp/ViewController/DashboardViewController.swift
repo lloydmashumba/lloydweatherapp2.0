@@ -210,7 +210,6 @@ extension DashboardViewController{
         let sortedForecast = forecast.sorted(by:{$0.value.dt < $1.value.dt})
         for i in 0 ..< sortedForecast.count{
             let forecastView = forecastViews[i]
-            print(sortedForecast[i].value)
             forecastView.heightAnchor.constraint(equalToConstant: viewHeight * 0.06).isActive = true
             forecastView.tempLabel.text = "\(sortedForecast[i].value.temp)º"
             forecastView.dayLabel.text = sortedForecast[i].key

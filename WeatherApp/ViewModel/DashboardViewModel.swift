@@ -78,7 +78,7 @@ class DashboardViewModel {
             .store(in: &cancellables)
 
     }
-    
+    //MARK: Save
     func saveFavouriteLocation(weather : CurrentWeather){
         let favourite = Favourite(context: context)
         favourite.city = weather.name
@@ -88,7 +88,7 @@ class DashboardViewModel {
         
         let coord = Coord(context: context)
         coord.lat = weather.coord?.lat ?? 0.0
-        coord.lat = weather.coord?.lat ?? 0.0
+        coord.lon = weather.coord?.lon ?? 0.0
         favourite.coord = coord
         
         locationPersistence.saveLocation()
