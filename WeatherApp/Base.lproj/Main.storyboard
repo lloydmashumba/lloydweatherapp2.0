@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Jkc-iR-ZAQ">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
@@ -96,6 +96,9 @@
                                                     </preferredSymbolConfiguration>
                                                     <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="locationsTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wdU-YN-mat"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -116,6 +119,7 @@
                             <constraint firstItem="D9E-vI-QUr" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="iB8-4y-QCJ"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="LCr-Dd-74R"/>
                     <size key="freeformSize" width="390" height="600"/>
                     <connections>
                         <outlet property="currentWeatherContainerView" destination="mCm-Ss-I7c" id="NZf-UJ-Tnq"/>
@@ -131,12 +135,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-23.076923076923077" y="3.5545023696682461"/>
+            <point key="canvasLocation" x="906.15384615384608" y="3.5545023696682461"/>
         </scene>
         <!--Favourite Location View Controller-->
         <scene sceneID="DsN-af-bVE">
             <objects>
-                <viewController id="eTI-3d-qnh" customClass="FavouriteLocationViewController" customModule="WeatherApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FavouriteLocationViewController" id="eTI-3d-qnh" customClass="FavouriteLocationViewController" customModule="WeatherApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NVz-zE-S44">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -144,17 +148,9 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dfx-43-ztd">
                                 <rect key="frame" x="0.0" y="0.0" width="390" height="600"/>
                                 <subviews>
-                                    <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pSq-TB-w6F">
-                                        <rect key="frame" x="0.0" y="60" width="390" height="44"/>
-                                        <items>
-                                            <navigationItem title="Favourites" largeTitleDisplayMode="always" id="I4c-2J-f8F">
-                                                <barButtonItem key="backBarButtonItem" title="Home" id="uRH-9R-RH7"/>
-                                            </navigationItem>
-                                        </items>
-                                    </navigationBar>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="KBV-eQ-7QO">
-                                        <rect key="frame" x="0.0" y="104" width="390" height="496"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="390" height="600"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FavouriteLocationTableViewCell" rowHeight="44" id="0s4-Ab-TYa" customClass="FavouriteLocationTableViewCell" customModule="WeatherApp" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="50" width="390" height="44"/>
@@ -187,14 +183,11 @@
                                         </connections>
                                     </tableView>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="backgroundColor" systemColor="systemMintColor"/>
                                 <constraints>
-                                    <constraint firstItem="pSq-TB-w6F" firstAttribute="top" secondItem="dfx-43-ztd" secondAttribute="top" constant="60" id="3qF-Ov-NPr"/>
-                                    <constraint firstAttribute="trailing" secondItem="pSq-TB-w6F" secondAttribute="trailing" id="8cF-6T-44g"/>
-                                    <constraint firstItem="KBV-eQ-7QO" firstAttribute="top" secondItem="pSq-TB-w6F" secondAttribute="bottom" id="ayO-o8-4RI"/>
+                                    <constraint firstItem="KBV-eQ-7QO" firstAttribute="top" secondItem="dfx-43-ztd" secondAttribute="top" id="Wsi-Mn-d9e"/>
                                     <constraint firstItem="KBV-eQ-7QO" firstAttribute="leading" secondItem="dfx-43-ztd" secondAttribute="leading" id="bFq-Il-YRL"/>
                                     <constraint firstAttribute="trailing" secondItem="KBV-eQ-7QO" secondAttribute="trailing" id="efO-iW-pBq"/>
-                                    <constraint firstItem="pSq-TB-w6F" firstAttribute="leading" secondItem="dfx-43-ztd" secondAttribute="leading" id="qgo-2c-F3G"/>
                                     <constraint firstAttribute="bottom" secondItem="KBV-eQ-7QO" secondAttribute="bottom" id="r8Z-k6-LIU"/>
                                 </constraints>
                             </view>
@@ -210,18 +203,42 @@
                     </view>
                     <size key="freeformSize" width="390" height="600"/>
                     <connections>
+                        <outlet property="favouriteLocationContainerView" destination="dfx-43-ztd" id="mUh-Hx-bgC"/>
                         <outlet property="favouriteLocationTableView" destination="KBV-eQ-7QO" id="JpW-3X-tOm"/>
+                        <outlet property="locationsTableView" destination="KBV-eQ-7QO" id="xue-re-VvV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hfd-zm-8us" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="636.92307692307691" y="3.5545023696682461"/>
+            <point key="canvasLocation" x="1566.1538461538462" y="3.5545023696682461"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="eyI-KT-TrY">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Jkc-iR-ZAQ" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <size key="freeformSize" width="390" height="600"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="cfm-3q-LIq">
+                        <rect key="frame" x="0.0" y="47" width="390" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="Cpl-L9-oWv"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WcR-9N-2uW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-23.076923076923077" y="3.5545023696682461"/>
         </scene>
     </scenes>
     <resources>
         <image name="chevron.right" catalog="system" width="97" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemMintColor">
+            <color red="0.0" green="0.7803921568627451" blue="0.74509803921568629" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

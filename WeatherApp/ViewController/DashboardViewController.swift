@@ -89,6 +89,15 @@ class DashboardViewController: UIViewController {
         input.send(.viewDidAppear)
     }
 
+    @IBAction func locationsTapped(_ sender: Any) {
+        
+        guard let vc = storyboard?.instantiateViewController(withIdentifier: "FavouriteLocationViewController") as? FavouriteLocationViewController else {
+            print("view controller failed")
+            return
+        }
+        
+        navigationController?.pushViewController(vc, animated: true)
+    }
     //:- design dynamic set up
     override func viewWillAppear(_ animated: Bool) {
         themeImageViewHeightConstraint.constant = viewHeight * 0.4

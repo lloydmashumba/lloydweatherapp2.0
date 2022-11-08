@@ -18,19 +18,21 @@ class FavouriteLocationsViewModel {
     
     //expected input to FavouriteLocationsViewController
     enum Output{
-        case listOfFavouriteLocations([Favourite])
+        case loadLocations
     }
     
     //output publisher to FavouriteLocationsViewController
-    let output = PassthroughSubject<Output,Error>()
+    private let output = PassthroughSubject<Output,Never>()
     
     //cancellable list
     private var cancellables = Set<AnyCancellable>()
     
     private let locationPersistence = FavouriteLocationPersistence.shared
     
+    private(set) var locations = [Favourite]()
+    
     //MARK: Bind
-    func bind(_ input : AnyPublisher<Input,Never>){
+    func bind(_ input : AnyPublisher<Input,Never>) -> AnyPublisher<Output,Never> {
         
         input.sink {[weak self] value in
             switch value {
@@ -39,13 +41,14 @@ class FavouriteLocationsViewModel {
             }
         }
         .store(in: &cancellables)
-        
+        return output.eraseToAnyPublisher()
     }
     
     private func loadSavedLocations(){
         locationPersistence.fetchAllSavedLocations()
             .sink {[weak self] locations in
-                self?.output.send(.listOfFavouriteLocations(locations))
+                self?.locations = locations
+                self?.output.send(.loadLocations)
             }
             .store(in: &cancellables)
     }
