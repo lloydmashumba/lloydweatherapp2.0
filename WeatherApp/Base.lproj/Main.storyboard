@@ -3,6 +3,7 @@
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -35,9 +36,10 @@
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="mCm-Ss-I7c" secondAttribute="bottom" id="5Ca-zt-3xm"/>
                                             <constraint firstItem="mCm-Ss-I7c" firstAttribute="leading" secondItem="Kg9-yn-QkQ" secondAttribute="leading" id="9ZQ-hN-tlu"/>
-                                            <constraint firstItem="mCm-Ss-I7c" firstAttribute="top" secondItem="Kg9-yn-QkQ" secondAttribute="top" id="Gcn-wd-78K"/>
                                             <constraint firstItem="lgZ-eN-AYv" firstAttribute="top" secondItem="Kg9-yn-QkQ" secondAttribute="top" id="gMg-Ac-vaa"/>
+                                            <constraint firstItem="mCm-Ss-I7c" firstAttribute="top" secondItem="Kg9-yn-QkQ" secondAttribute="top" id="grq-lR-G4V"/>
                                             <constraint firstAttribute="trailing" secondItem="lgZ-eN-AYv" secondAttribute="trailing" id="hgi-2s-l8w"/>
+                                            <constraint firstItem="mCm-Ss-I7c" firstAttribute="leading" secondItem="Kg9-yn-QkQ" secondAttribute="leading" id="lEB-rw-Yrd"/>
                                             <constraint firstAttribute="height" constant="250" id="o2U-ud-2gl"/>
                                             <constraint firstAttribute="trailing" secondItem="mCm-Ss-I7c" secondAttribute="trailing" id="pmG-NW-zyb"/>
                                             <constraint firstItem="lgZ-eN-AYv" firstAttribute="leading" secondItem="Kg9-yn-QkQ" secondAttribute="leading" id="u4I-1w-m6v"/>
@@ -83,7 +85,24 @@
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vEE-q1-C7v">
                                         <rect key="frame" x="0.0" y="531" width="390" height="69"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3OA-CZ-QYU">
+                                                <rect key="frame" x="107.00000000000001" y="17.333333333333375" width="176.33333333333337" height="34.333333333333343"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="tinted" imagePlacement="trailing" title="Saved Locations" imagePadding="12" cornerStyle="capsule" titleAlignment="leading">
+                                                    <imageReference key="image" image="chevron.right" catalog="system" symbolScale="large"/>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="font" scale="large">
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                    </preferredSymbolConfiguration>
+                                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </buttonConfiguration>
+                                            </button>
+                                        </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="3OA-CZ-QYU" firstAttribute="centerY" secondItem="vEE-q1-C7v" secondAttribute="centerY" id="w60-ok-QgL"/>
+                                            <constraint firstItem="3OA-CZ-QYU" firstAttribute="centerX" secondItem="vEE-q1-C7v" secondAttribute="centerX" id="zqP-Yw-7Mf"/>
+                                        </constraints>
                                     </view>
                                 </subviews>
                             </stackView>
@@ -112,10 +131,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-23" y="4"/>
+            <point key="canvasLocation" x="-23.076923076923077" y="3.5545023696682461"/>
         </scene>
     </scenes>
     <resources>
+        <image name="chevron.right" catalog="system" width="97" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

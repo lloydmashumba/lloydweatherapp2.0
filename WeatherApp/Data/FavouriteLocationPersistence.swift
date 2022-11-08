@@ -22,14 +22,18 @@ class FavouriteLocationPersistence {
         case error(String)
     }
     
-    //save location
+    //save
     let output = PassthroughSubject<Output,Never>()
     
+    //save location
     func saveLocation(){
         do{
             try context.save()
+            output.send(.success)
         }catch{
             output.send(.error("Failed To Save Location. Please Try Again!"))
         }
     }
+    //Fetch Location
+    
 }
