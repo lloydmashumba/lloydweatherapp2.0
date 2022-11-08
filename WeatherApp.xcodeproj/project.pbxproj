@@ -27,6 +27,8 @@
 		6E592A5829177DC9007488DF /* WeatherMockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E592A5729177DC9007488DF /* WeatherMockData.swift */; };
 		6E592A5A29178262007488DF /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E592A5929178262007488DF /* Constants.swift */; };
 		6E592A5B2917EC1C007488DF /* forecast_weather.json in Resources */ = {isa = PBXBuildFile; fileRef = 6E453F4629166BAF00E25B4C /* forecast_weather.json */; };
+		6EFFB90C2919218400A7C564 /* WeatherApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6EFFB90A2919218300A7C564 /* WeatherApp.xcdatamodeld */; };
+		6EFFB90E291927DE00A7C564 /* FavouriteLocationPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFFB90D291927DE00A7C564 /* FavouriteLocationPersistence.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +73,8 @@
 		6E592A55291765D7007488DF /* WeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherService.swift; sourceTree = "<group>"; };
 		6E592A5729177DC9007488DF /* WeatherMockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherMockData.swift; sourceTree = "<group>"; };
 		6E592A5929178262007488DF /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		6EFFB90B2919218400A7C564 /* WeatherApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WeatherApp.xcdatamodel; sourceTree = "<group>"; };
+		6EFFB90D291927DE00A7C564 /* FavouriteLocationPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteLocationPersistence.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +135,7 @@
 				6E36DBBD291441CC003BB177 /* Assets.xcassets */,
 				6E36DBBF291441CC003BB177 /* LaunchScreen.storyboard */,
 				6E36DBC2291441CC003BB177 /* Info.plist */,
+				6EFFB90A2919218300A7C564 /* WeatherApp.xcdatamodeld */,
 			);
 			path = WeatherApp;
 			sourceTree = "<group>";
@@ -177,6 +182,7 @@
 				6E36DBE729154F73003BB177 /* Mock */,
 				6E592A55291765D7007488DF /* WeatherService.swift */,
 				6E592A5729177DC9007488DF /* WeatherMockData.swift */,
+				6EFFB90D291927DE00A7C564 /* FavouriteLocationPersistence.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -357,6 +363,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6EFFB90C2919218400A7C564 /* WeatherApp.xcdatamodeld in Sources */,
+				6EFFB90E291927DE00A7C564 /* FavouriteLocationPersistence.swift in Sources */,
 				6E592A56291765D7007488DF /* WeatherService.swift in Sources */,
 				6E36DBEC29155112003BB177 /* Weather.swift in Sources */,
 				6E36DBB9291441C9003BB177 /* DashboardViewController.swift in Sources */,
@@ -716,6 +724,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		6EFFB90A2919218300A7C564 /* WeatherApp.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				6EFFB90B2919218400A7C564 /* WeatherApp.xcdatamodel */,
+			);
+			currentVersion = 6EFFB90B2919218400A7C564 /* WeatherApp.xcdatamodel */;
+			path = WeatherApp.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 6E36DBA9291441C9003BB177 /* Project object */;
 }

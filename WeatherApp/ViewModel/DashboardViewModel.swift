@@ -16,6 +16,7 @@ class DashboardViewModel {
     }
     //output sent to the DashboardViewController
     enum Output{
+        case locationSaved(String)
         case currentWeather(CurrentWeather?)
         case forecastWeather([String:ForecastModel]?)
     }
@@ -23,11 +24,14 @@ class DashboardViewModel {
     
     init(service : WeatherService){
         self.service = service;
+        subscribeToFavouriteLocationPersistenceOutput()
     }
     
     var cancellables = Set<AnyCancellable>()
-    
     private let output = PassthroughSubject<Output,Never>()
+    
+    var locationPersistence = FavouriteLocationPersistence.shared
+    let context = appDelelagate.persistentContainer.viewContext
     
     //MARK: Bind
     //Bind ViewModel,View Controller on their "Input Output" publishers
@@ -75,9 +79,24 @@ class DashboardViewModel {
 
     }
     
+    func saveFavouriteLocation(weather : CurrentWeather){
+        let favourite = Favourite(context: context)
+        favourite.city = weather.name
+        favourite.sunrise = weather.sys.sunrise ?? 0.0
+        favourite.sunset = weather.sys.sunset ?? 0.0
+        favourite.country_code = weather.sys.country
+        
+        let coord = Coord(context: context)
+        coord.lat = weather.coord?.lat ?? 0.0
+        coord.lat = weather.coord?.lat ?? 0.0
+        favourite.coord = coord
+        
+        locationPersistence.saveLocation()
+    }
     
 }
-//MARK: Logic
+
+//MARK: Setup
 extension DashboardViewModel {
     //Format forecat day
     func forecastDay(_ date:Date) -> String{
@@ -94,5 +113,15 @@ extension DashboardViewModel {
         }
         convertedForecast.removeValue(forKey: forecastDay(Date()))
         return convertedForecast
+    }
+    
+    func subscribeToFavouriteLocationPersistenceOutput(){
+        locationPersistence.output
+            .sink { value in
+                if case .success = value {
+                    self.output.send(.locationSaved("location save successfully!"))
+                }
+            }
+            .store(in: &cancellables)
     }
 }

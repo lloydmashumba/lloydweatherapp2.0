@@ -68,7 +68,7 @@ struct Clouds : Decodable{
 struct Sys : Decodable{
     var pod : String?
     var country : String?
-    var sunrise : Int?
-    var sunset : Int?
+    var sunrise : Double?
+    var sunset : Double?
     
 }

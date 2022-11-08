@@ -18,19 +18,22 @@ class DashboardViewController: UIViewController {
     private var input = PassthroughSubject<DashboardViewModel.Input,Never>()
     private var dashboardViewModel : DashboardViewModel?
     private var cancellables = Set<AnyCancellable>()
+    //displayed current weather
+    private var currentWeather : CurrentWeather?
     
     //:-Views
     //current weather
     var mainTempDescriptionStackView = UIStackView(frame:.zero)
     var temperatureLabel = UILabel()
     var weatherDescriptionLabel = UILabel()
+    var saveBtn = UIButton()
     var maxRecordTemp = CurrentTempRecordView(frame: .zero)
     var currentRecordTemp = CurrentTempRecordView(frame: .zero)
     var minRecordTemp = CurrentTempRecordView(frame: .zero)
-    
     var tempRecordViews : [CurrentTempRecordView] {
         [minRecordTemp,currentRecordTemp,maxRecordTemp]
     }
+    
     //Forecast
     var forecastDay1 = ForecastView()
     var forecastDay2 = ForecastView()
@@ -71,6 +74,8 @@ class DashboardViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [weak self] output in
                 switch output {
+                case .locationSaved(let response):
+                    print(response)
                 case .currentWeather(let currentWeather):
                     self?.handleCurrentWeatherUpdates(currentWeather!)
                 case .forecastWeather(let weatherForecast) :
@@ -96,33 +101,52 @@ class DashboardViewController: UIViewController {
         setUpWeatherForecastView()
     }
     
+    
     //MARK: - Current Weather
     //sets up the current weather views
     private func setUpCurrentTemperatureView(){
         
-        //:- styling temperature lable
+        //:- styling temperature label
         temperatureLabel.textColor = .white
         temperatureLabel.shadowColor = .black
         temperatureLabel.shadowOffset = .init(width: 0.2, height: 0.3)
         temperatureLabel.textAlignment = .center
-        temperatureLabel.font = .systemFont(ofSize: 60, weight: .heavy)
+        temperatureLabel.font = .systemFont(ofSize: 48, weight: .heavy)
         temperatureLabel.accessibilityIdentifier = "temp"
         //:- styling weather description label
         weatherDescriptionLabel.textColor = .white
         weatherDescriptionLabel.textAlignment = .center
-        weatherDescriptionLabel.font = .systemFont(ofSize: 40, weight: .bold)
+        weatherDescriptionLabel.font = .systemFont(ofSize: 28, weight: .bold)
         weatherDescriptionLabel.accessibilityIdentifier = "condition"
+        //setUpSaveButton
+        setupSaveButton()
         //:- adding the views to mainTempDescriptionStackView
         mainTempDescriptionStackView.addArrangedSubview(temperatureLabel)
         mainTempDescriptionStackView.addArrangedSubview(weatherDescriptionLabel)
+        mainTempDescriptionStackView.addArrangedSubview(saveBtn)
         //:-adding mainTempDescriptionStackView to currentWeatherContainerView
         currentWeatherContainerView.addSubview(mainTempDescriptionStackView)
         //:- constraining mainTempDescriptionStackView to currentWeatherContainerView
         mainTempDescriptionStackView.translatesAutoresizingMaskIntoConstraints = false
         mainTempDescriptionStackView.centerXAnchor.constraint(equalTo: currentWeatherContainerView.centerXAnchor).isActive = true
-        mainTempDescriptionStackView.centerYAnchor.constraint(equalTo: currentWeatherContainerView.centerYAnchor).isActive = true
+        mainTempDescriptionStackView.topAnchor.constraint(equalTo: currentWeatherContainerView.topAnchor, constant: 72).isActive = true
+        //mainTempDescriptionStackView.centerYAnchor.constraint(equalTo: currentWeatherContainerView.centerYAnchor).isActive = true
     }
-    
+    //MARK: Save Favourite
+    private func setupSaveButton(){
+        saveBtn.setTitle("Save As Favourite", for: .normal)
+        saveBtn.setTitleColor(.white, for: .normal)
+        saveBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+        saveBtn.layer.borderColor = UIColor.white.cgColor
+        saveBtn.layer.borderWidth = 1
+        saveBtn.layer.cornerRadius = 8
+        saveBtn.addTarget(self, action: #selector(saveTapped), for: .touchUpInside)
+
+    }
+    //save location call
+    @objc func saveTapped(){
+        dashboardViewModel?.saveFavouriteLocation(weather: currentWeather!)
+    }
     //MARK: - Temp Record
     //setting up the record view
     private func setUpRecordViews(){
@@ -139,10 +163,8 @@ class DashboardViewController: UIViewController {
         for tempView in tempRecordViews{
             tempRecordStackView.addArrangedSubview(tempView)
         }
-        
-        
-        
     }
+    
     //MARK: Forecast
     //Sets up a five day forecast view
     private func setUpWeatherForecastView(){
@@ -167,6 +189,7 @@ extension DashboardViewController{
     
     //Handles current weather updates
     private func handleCurrentWeatherUpdates(_ currentWeather: CurrentWeather){
+        self.currentWeather = currentWeather
         currentRecordTemp.temp.text = "\(currentWeather.main.temp)º"
         minRecordTemp.temp.text = "\(currentWeather.main.temp_min)º"
         maxRecordTemp.temp.text = "\(currentWeather.main.temp_max)º"
