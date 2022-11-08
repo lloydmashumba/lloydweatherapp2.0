@@ -56,8 +56,11 @@ class FavouriteLocationViewController: UIViewController{
         
     }
     
-    
-
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if(editingStyle == .delete){
+            input.send(.delete(favouriteLocationsViewModel.locations[indexPath.row]))
+        }
+    }
 }
 
 //MARK: DataSource

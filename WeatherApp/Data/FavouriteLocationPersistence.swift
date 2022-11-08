@@ -18,6 +18,8 @@ class FavouriteLocationPersistence {
     enum Output {
         case listOfLocations([Favourite])
         case location(Favourite)
+        case deleted
+        case deletionFailed(String)
         case success
         case error(String)
     }
@@ -39,12 +41,23 @@ class FavouriteLocationPersistence {
     
     func fetchAllSavedLocations() -> AnyPublisher<[Favourite],Never>{
         
-        var fetchRequest = Favourite.fetchRequest()
+        let fetchRequest = Favourite.fetchRequest()
         guard let savedLocations : [Favourite] = try? context.fetch(fetchRequest) else{
             return Just([Favourite]()).eraseToAnyPublisher()
         }
         return Just(savedLocations).eraseToAnyPublisher()
     }
+    
+    
+    func deleteLocation(location: Favourite){
+            do{
+                context.delete(location)
+                try context.save()
+                output.send(.deleted)
+            }catch{
+                output.send(.deletionFailed("Failed to delete location,Please try Again!"))
+            }
+        }
     
     
 }

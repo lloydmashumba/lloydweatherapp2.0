@@ -12,6 +12,7 @@ class FavouriteLocationsViewModel {
     
     //expected input from FavouriteLocationsViewController
     enum Input{
+        case delete(Favourite)
         case viewDidAppear
         case reloadListOfFavouriteLocations
     }
@@ -38,12 +39,14 @@ class FavouriteLocationsViewModel {
             switch value {
             case .reloadListOfFavouriteLocations,.viewDidAppear:
                 self?.loadSavedLocations()
+            case .delete(let favourite) :
+                self?.locationPersistence.deleteLocation(location: favourite)
             }
         }
         .store(in: &cancellables)
         return output.eraseToAnyPublisher()
     }
-    
+    //MARK: getLocations
     private func loadSavedLocations(){
         locationPersistence.fetchAllSavedLocations()
             .sink {[weak self] locations in
@@ -53,7 +56,17 @@ class FavouriteLocationsViewModel {
             .store(in: &cancellables)
     }
     
-    
-    
-    
+}
+
+extension FavouriteLocationsViewModel {
+    //Subscribe to favourite location persistence
+    func subscribeToLocationPersistence(){
+        locationPersistence.output
+            .sink {[weak self] value in
+                if case .deleted = value {
+                    self?.loadSavedLocations()
+                }
+            }
+            .store(in: &cancellables)
+    }
 }
