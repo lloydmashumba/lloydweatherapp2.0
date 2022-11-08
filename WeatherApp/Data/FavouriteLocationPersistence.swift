@@ -34,6 +34,17 @@ class FavouriteLocationPersistence {
             output.send(.error("Failed To Save Location. Please Try Again!"))
         }
     }
+    
     //Fetch Location
+    
+    func fetchAllSavedLocations() -> AnyPublisher<[Favourite],Never>{
+        
+        var fetchRequest = Favourite.fetchRequest()
+        guard let savedLocations : [Favourite] = try? context.fetch(fetchRequest) else{
+            return Just([Favourite]()).eraseToAnyPublisher()
+        }
+        return Just(savedLocations).eraseToAnyPublisher()
+    }
+    
     
 }
