@@ -85,4 +85,15 @@ extension FavouriteLocationViewController:UITableViewDataSource{
 //MARK: Delegate
 extension FavouriteLocationViewController:UITableViewDelegate{
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = MapViewController()
+        let location = favouriteLocationsViewModel.locations[indexPath.row]
+        vc.pinTitle = "\(location.city!),\(location.country_code!)"
+        vc.lon = location.coord?.lon
+        vc.lat = location.coord?.lat
+        navigationController?.pushViewController(vc, animated: true)
+        
+    }
+    
+    
 }
