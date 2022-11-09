@@ -22,6 +22,10 @@ class FavouriteLocationsViewModel {
         case loadLocations
     }
     
+    init(){
+        subscribeToLocationPersistence()
+    }
+    
     //output publisher to FavouriteLocationsViewController
     private let output = PassthroughSubject<Output,Never>()
     
@@ -64,6 +68,7 @@ extension FavouriteLocationsViewModel {
         locationPersistence.output
             .sink {[weak self] value in
                 if case .deleted = value {
+                    print("delete")
                     self?.loadSavedLocations()
                 }
             }
