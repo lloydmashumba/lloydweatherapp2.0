@@ -29,6 +29,7 @@
 		6E592A5829177DC9007488DF /* WeatherMockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E592A5729177DC9007488DF /* WeatherMockData.swift */; };
 		6E592A5A29178262007488DF /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E592A5929178262007488DF /* Constants.swift */; };
 		6E592A5B2917EC1C007488DF /* forecast_weather.json in Resources */ = {isa = PBXBuildFile; fileRef = 6E453F4629166BAF00E25B4C /* forecast_weather.json */; };
+		6E72BD78291BF466004A86E9 /* LocationDetailsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E72BD77291BF466004A86E9 /* LocationDetailsModel.swift */; };
 		6E81CE40291A2021007C1177 /* FavouriteLocationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E81CE3F291A2021007C1177 /* FavouriteLocationsViewModel.swift */; };
 		6E81CE42291A2720007C1177 /* FavouriteLocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E81CE41291A2720007C1177 /* FavouriteLocationTableViewCell.swift */; };
 		6E81CE44291A27D0007C1177 /* FavouriteLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E81CE43291A27D0007C1177 /* FavouriteLocationViewController.swift */; };
@@ -83,6 +84,7 @@
 		6E592A55291765D7007488DF /* WeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherService.swift; sourceTree = "<group>"; };
 		6E592A5729177DC9007488DF /* WeatherMockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherMockData.swift; sourceTree = "<group>"; };
 		6E592A5929178262007488DF /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		6E72BD77291BF466004A86E9 /* LocationDetailsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetailsModel.swift; sourceTree = "<group>"; };
 		6E81CE3F291A2021007C1177 /* FavouriteLocationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteLocationsViewModel.swift; sourceTree = "<group>"; };
 		6E81CE41291A2720007C1177 /* FavouriteLocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteLocationTableViewCell.swift; sourceTree = "<group>"; };
 		6E81CE43291A27D0007C1177 /* FavouriteLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteLocationViewController.swift; sourceTree = "<group>"; };
@@ -137,7 +139,6 @@
 				B4ED31A8F8A7964487809F63 /* Pods-WeatherAppTests.debug.xcconfig */,
 				F86897D33D59E1299DC45C25 /* Pods-WeatherAppTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -245,6 +246,7 @@
 			children = (
 				6E36DBEB29155112003BB177 /* Weather.swift */,
 				6E2A88442918346800EDF027 /* ForecastModel.swift */,
+				6E72BD77291BF466004A86E9 /* LocationDetailsModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -543,6 +545,7 @@
 				6E2A88452918346800EDF027 /* ForecastModel.swift in Sources */,
 				6E81CE44291A27D0007C1177 /* FavouriteLocationViewController.swift in Sources */,
 				6E592A53291763A3007488DF /* DashboardViewModel.swift in Sources */,
+				6E72BD78291BF466004A86E9 /* LocationDetailsModel.swift in Sources */,
 				6E592A5829177DC9007488DF /* WeatherMockData.swift in Sources */,
 				6E4B05A5291AD4400067B970 /* MapViewController.swift in Sources */,
 			);
@@ -731,7 +734,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -764,7 +767,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

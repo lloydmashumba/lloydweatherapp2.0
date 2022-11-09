@@ -7,9 +7,11 @@
 
 import UIKit
 import Combine
+import CoreLocation
 
 class DashboardViewController: UIViewController {
     
+    let locationManager = CLLocationManager()
     
     //MARK: Properties
     private var viewHeight : CGFloat {
@@ -64,8 +66,15 @@ class DashboardViewController: UIViewController {
         mainTempDescriptionStackView.axis = .vertical
         mainTempDescriptionStackView.distribution = .fill
         
+        
+        locationManager.delegate = appDelelagate
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestAlwaysAuthorization()
+        locationManager.startUpdatingLocation()
+        
         view.backgroundColor = UIColor(named: "forest_sunny")
         themeImageView.image = UIImage(named: "forest_sunny")
+        
         
     }
     
@@ -75,10 +84,10 @@ class DashboardViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [weak self] output in
                 switch output {
+                case .details(let details):
+                    self?.showDialog(details.name, message: details.address)
                 case .locationSaved(let response):
-                    let alert = UIAlertController(title: "Saved", message: response, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "ok", style: .default))
-                    self?.present(alert, animated: true)
+                    self?.showDialog("Saved", message: response)
                 case .currentWeather(let currentWeather):
                     self?.handleCurrentWeatherUpdates(currentWeather!)
                 case .forecastWeather(let weatherForecast) :
@@ -90,6 +99,7 @@ class DashboardViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         input.send(.viewDidAppear)
+        
     }
 
     @IBAction func locationsTapped(_ sender: Any) {
@@ -222,5 +232,11 @@ extension DashboardViewController{
         }
     }
     
+    //show dialogResponses
+    private func showDialog(_ title: String,message :String){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "ok", style: .default))
+        present(alert, animated: true)
+    }
 }
 

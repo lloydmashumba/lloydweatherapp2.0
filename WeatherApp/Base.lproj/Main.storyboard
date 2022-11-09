@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Jkc-iR-ZAQ">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -89,7 +90,7 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3OA-CZ-QYU">
                                                 <rect key="frame" x="107.00000000000001" y="17.333333333333375" width="176.33333333333337" height="34.333333333333343"/>
                                                 <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="tinted" imagePlacement="trailing" title="Saved Locations" imagePadding="12" cornerStyle="capsule" titleAlignment="leading">
+                                                <buttonConfiguration key="configuration" style="gray" imagePlacement="trailing" title="Saved Locations" imagePadding="12" cornerStyle="capsule" titleAlignment="leading">
                                                     <imageReference key="image" image="chevron.right" catalog="system" symbolScale="large"/>
                                                     <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="font" scale="large">
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
