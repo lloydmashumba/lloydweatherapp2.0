@@ -31,8 +31,8 @@ class FavouriteLocationViewController: UIViewController{
         favouriteLocationContainerView.backgroundColor = UIColor(named: "forest_sunny")
         bind()
     }
-    
     override func viewWillAppear(_ animated: Bool) {
+        appDelelagate.showProgress(self)
         navigationController?.navigationBar.tintColor = .white
         navigationItem.title = "Favourites"
     }
@@ -40,6 +40,8 @@ class FavouriteLocationViewController: UIViewController{
         input.send(.viewDidAppear)
         
     }
+    
+
     
     //MARK: Bind
     private func bind(){
@@ -50,6 +52,7 @@ class FavouriteLocationViewController: UIViewController{
                 switch value {
                 case .loadLocations :
                     self?.locationsTableView.reloadData()
+                    appDelelagate.dismissProgress()
                 }
             }
             .store(in: &cancellables)

@@ -12,6 +12,13 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
+    //Progress
+    private let progressView : Progress = {
+        let vc = Progress()
+        vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .overCurrentContext
+        return vc
+    }()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -56,5 +63,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
+    
+    //Mark Progress View
+    func showProgress(_ vc : UIViewController){
+        vc.present(progressView, animated: true)
+    }
+    func dismissProgress(){
+        progressView.dismiss(animated: true)
+    }
+    
+    
 }
 

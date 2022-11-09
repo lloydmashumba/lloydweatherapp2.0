@@ -68,6 +68,7 @@ class DashboardViewController: UIViewController {
         themeImageView.image = UIImage(named: "forest_sunny")
         
     }
+    
     //MARK: Bind
     private func bind(){
         dashboardViewModel?.bind(input: input.eraseToAnyPublisher())
@@ -75,7 +76,9 @@ class DashboardViewController: UIViewController {
             .sink(receiveValue: { [weak self] output in
                 switch output {
                 case .locationSaved(let response):
-                    print(response)
+                    let alert = UIAlertController(title: "Saved", message: response, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "ok", style: .default))
+                    self?.present(alert, animated: true)
                 case .currentWeather(let currentWeather):
                     self?.handleCurrentWeatherUpdates(currentWeather!)
                 case .forecastWeather(let weatherForecast) :
