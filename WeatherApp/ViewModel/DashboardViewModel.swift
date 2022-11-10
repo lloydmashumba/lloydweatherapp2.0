@@ -92,9 +92,9 @@ class DashboardViewModel {
     func saveFavouriteLocation(weather : CurrentWeather){
         let favourite = Favourite(context: context)
         favourite.city = weather.name
-        favourite.sunrise = weather.sys.sunrise ?? 0.0
-        favourite.sunset = weather.sys.sunset ?? 0.0
-        favourite.country_code = weather.sys.country
+        favourite.sunrise = weather.sys?.sunrise ?? 0.0
+        favourite.sunset = weather.sys?.sunset ?? 0.0
+        favourite.country_code = weather.sys?.country
         
         let coord = Coord(context: context)
         coord.lat = weather.coord?.lat ?? 0.0

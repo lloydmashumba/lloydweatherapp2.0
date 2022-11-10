@@ -12,12 +12,12 @@ struct CurrentWeather : Decodable{
     var weather : [Weather]
     var base : String?
     var main : Main
-    var visibility : Int
+    var visibility : Int?
     var wind : Wind?
     var rain : [String : Double]?
-    var clouds : Clouds
+    var clouds : Clouds?
     var dt : Double
-    var sys : Sys
+    var sys : Sys?
     var timezone : Int?
     var id : Int?
     var name : String?
@@ -38,10 +38,10 @@ struct Coordinate : Decodable{
 }
 
 struct Weather : Decodable{
-    var id : Int
+    var id : Int?
     var main : String
-    var description : String
-    var icon : String
+    var description : String?
+    var icon : String?
     var conditionForTheme : String {
         main == "Rain" ? "Rainny" : main == "Clouds" ? "Cloudy" :"Sunny"
     }
@@ -49,7 +49,7 @@ struct Weather : Decodable{
 
 struct Main : Decodable{
     var temp : Double
-    var feels_like : Double
+    var feels_like : Double?
     var temp_min : Double
     var temp_max : Double
     var pressure : Int?
@@ -60,13 +60,13 @@ struct Main : Decodable{
 }
 
 struct Wind : Decodable{
-    var speed : Double
-    var deg : Int
-    var gust : Double
+    var speed : Double?
+    var deg : Int?
+    var gust : Double?
 }
 
 struct Clouds : Decodable{
-    var all : Int
+    var all : Int?
 }
 
 struct Sys : Decodable{
