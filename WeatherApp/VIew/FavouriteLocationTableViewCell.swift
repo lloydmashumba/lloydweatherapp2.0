@@ -20,7 +20,7 @@ class FavouriteLocationTableViewCell: UITableViewCell {
         
         selectionStyle = .none
         
-        descriptionContainerView.layer.cornerRadius = 12
+        descriptionContainerView.layer.cornerRadius = 8
         descriptionContainerView.backgroundColor = .gray.withAlphaComponent(0.5)
         descriptionContainerView.layer.masksToBounds = false
         

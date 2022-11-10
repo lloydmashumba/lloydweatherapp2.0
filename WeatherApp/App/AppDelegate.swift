@@ -7,11 +7,13 @@
 
 import UIKit
 import CoreData
+import GooglePlaces
+import CoreLocation
+import Combine
+
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
+class AppDelegate: UIResponder, UIApplicationDelegate,CLLocationManagerDelegate{
     //Progress
     private let progressView : Progress = {
         let vc = Progress()
@@ -19,9 +21,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         vc.modalPresentationStyle = .overCurrentContext
         return vc
     }()
+    
+    //Location changed publisher
+    let locationChangedPublisher = PassthroughSubject<CLLocationCoordinate2D?,Never>()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        GMSPlacesClient.provideAPIKey("AIzaSyAXFa4mJnbfK384so5E0WGiF8JWLKsOkus")
+        
+        
         return true
     }
 
@@ -37,6 +46,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the user discards a scene session.
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
+    }
+    //MARK: location change
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        locationChangedPublisher.send(manager.location!.coordinate)
+    }
+    
+    func locationServicesEnabled() async -> Bool {
+        CLLocationManager.locationServicesEnabled()
     }
 
     // MARK: - Core Data

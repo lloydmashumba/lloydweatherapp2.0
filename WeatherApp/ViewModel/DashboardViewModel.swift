@@ -7,6 +7,8 @@
 
 import Foundation
 import Combine
+import MapKit
+import GooglePlaces
 
 class DashboardViewModel {
     
@@ -16,6 +18,7 @@ class DashboardViewModel {
     }
     //output sent to the DashboardViewController
     enum Output{
+        case details(Details?)
         case locationSaved(String)
         case currentWeather(CurrentWeather?)
         case forecastWeather([String:ForecastModel]?)
@@ -25,6 +28,7 @@ class DashboardViewModel {
     init(service : WeatherService){
         self.service = service;
         subscribeToFavouriteLocationPersistenceOutput()
+        bindLocationUpdate()
     }
     
     var cancellables = Set<AnyCancellable>()
@@ -32,6 +36,9 @@ class DashboardViewModel {
     
     var locationPersistence = FavouriteLocationPersistence.shared
     let context = appDelelagate.persistentContainer.viewContext
+    
+    //places client
+    private let placesClient = GMSPlacesClient.shared()
     
     //MARK: Bind
     //Bind ViewModel,View Controller on their "Input Output" publishers
@@ -92,6 +99,43 @@ class DashboardViewModel {
         favourite.coord = coord
         
         locationPersistence.saveLocation()
+    }
+    
+    //MARK: Subscribe to Current Location
+    private func bindLocationUpdate(){
+        appDelelagate.locationChangedPublisher
+            .sink {[weak self] coord in
+                guard coord != nil else {
+                    return
+                }
+               
+                self?.getLocationLikelyhood()
+            }
+            .store(in: &cancellables)
+    }
+    
+    
+    //Open Weather call
+    
+    //About the current location
+    private func getLocationLikelyhood() {
+        let placeFields: GMSPlaceField = [.name,.formattedAddress]
+        placesClient.findPlaceLikelihoodsFromCurrentLocation(withPlaceFields: placeFields) { [weak self] (placeDetails, error) in
+
+             guard error == nil else {
+               print("Current place error: \(error?.localizedDescription ?? "")")
+                 self?.output.send(.details(nil))
+               return
+             }
+
+             guard let place = placeDetails?.first?.place else {
+                 self?.output.send(.details(nil))
+               return
+             }
+            
+            self?.output.send(.details(Details(name: place.name ?? "", address: place.formattedAddress ?? "")))
+            
+           }
     }
     
 }
