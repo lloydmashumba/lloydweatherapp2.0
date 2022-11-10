@@ -13,7 +13,7 @@ struct CurrentWeather : Decodable{
     var base : String?
     var main : Main
     var visibility : Int
-    var wind : Wind
+    var wind : Wind?
     var rain : [String : Double]?
     var clouds : Clouds
     var dt : Double
@@ -43,7 +43,7 @@ struct Weather : Decodable{
     var description : String
     var icon : String
     var conditionForTheme : String {
-        main == "Rain" ? "rainny" : main == "Clouds" ? "cloudy" :"sunny"
+        main == "Rain" ? "Rainny" : main == "Clouds" ? "Cloudy" :"Sunny"
     }
 }
 
@@ -52,10 +52,10 @@ struct Main : Decodable{
     var feels_like : Double
     var temp_min : Double
     var temp_max : Double
-    var pressure : Int
-    var humidity : Int
-    var sea_level : Int
-    var grnd_level : Int
+    var pressure : Int?
+    var humidity : Int?
+    var sea_level : Int?
+    var grnd_level : Int?
     
 }
 

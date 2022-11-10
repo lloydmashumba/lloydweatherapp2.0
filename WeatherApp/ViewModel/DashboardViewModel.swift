@@ -18,6 +18,7 @@ class DashboardViewModel {
     }
     //output sent to the DashboardViewController
     enum Output{
+        case errorAlert(String)
         case details(Details?)
         case locationSaved(String)
         case currentWeather(CurrentWeather?)
@@ -57,9 +58,10 @@ class DashboardViewModel {
     //MARK: Current Weather Call
     //handles response for current weather call
     private func handleGetCurrentWeather(){
-        service.fetchCurrentWeather().sink { completion in
+        service.fetchCurrentWeather().sink {[weak self] completion in
                 if case .failure(let error) = completion{
-                    print(error.localizedDescription)
+                    print(error)
+                    self?.output.send(.errorAlert(error.localizedDescription))
                 }
             } receiveValue: { [weak self] result in
                 self?.output.send(.currentWeather(result))
@@ -75,9 +77,10 @@ class DashboardViewModel {
                 self.forecastDay(Date(timeIntervalSince1970: .init(floatLiteral: $0.dt)))
             }})
             .map({self.orderdForecast($0)})
-            .sink { completion in
+            .sink {[weak self] completion in
                 if case .failure(let error) = completion{
-                    print(error.localizedDescription)
+                    print(error)
+                    self?.output.send(.errorAlert(error.localizedDescription))
                 }
             } receiveValue: { [weak self] result in
                 self?.output.send(.forecastWeather(result))

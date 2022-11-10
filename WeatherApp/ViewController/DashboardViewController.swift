@@ -63,7 +63,7 @@ class DashboardViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        dashboardViewModel = DashboardViewModel(service: WeatherMockData())
+        dashboardViewModel = DashboardViewModel(service: OpenWeatherAPi())
         bind()
         mainTempDescriptionStackView.axis = .vertical
         mainTempDescriptionStackView.distribution = .fill
@@ -84,6 +84,8 @@ class DashboardViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [weak self] output in
                 switch output {
+                case .errorAlert(let message):
+                    self?.showDialog("Error", message: message)
                 case .details(let details):
                     self?.currentLocationDetails = details
                 case .locationSaved(let response):
