@@ -38,7 +38,6 @@ class FavouriteLocationPersistence {
     }
     
     //Fetch Location
-    
     func fetchAllSavedLocations() -> AnyPublisher<[Favourite],Never>{
         
         let fetchRequest = Favourite.fetchRequest()
@@ -48,6 +47,18 @@ class FavouriteLocationPersistence {
         return Just(savedLocations).eraseToAnyPublisher()
     }
     
+    //
+    func retrievLocationByName(_ name : String) -> AnyPublisher<Favourite?,Never>{
+        let fetchRequest = Favourite.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "city = %@",name)
+        guard let locations : [Favourite] = try? context.fetch(fetchRequest) else{
+            return Just(nil).eraseToAnyPublisher()
+        }
+        if !locations.isEmpty {
+            return Just(locations[0]).eraseToAnyPublisher()
+        }
+        return Just(nil).eraseToAnyPublisher()
+    }
     
     func deleteLocation(location: Favourite){
             do{

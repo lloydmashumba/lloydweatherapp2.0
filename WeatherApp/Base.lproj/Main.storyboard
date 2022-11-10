@@ -145,6 +145,7 @@
                         <outlet property="themeImageView" destination="lgZ-eN-AYv" id="foU-yd-Ohk"/>
                         <outlet property="themeImageViewContainer" destination="Kg9-yn-QkQ" id="5jt-Jj-DDf"/>
                         <outlet property="themeImageViewHeightConstraint" destination="o2U-ud-2gl" id="xi6-DZ-ga9"/>
+                        <outlet property="viewLocationsBtn" destination="3OA-CZ-QYU" id="p92-yk-fjO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

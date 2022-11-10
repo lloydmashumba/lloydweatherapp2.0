@@ -20,9 +20,10 @@ class DashboardViewModel {
     enum Output{
         case errorAlert(String)
         case details(Details?)
-        case locationSaved(String)
+        case locationSaveSuccess(String)
         case currentWeather(CurrentWeather?)
         case forecastWeather([String:ForecastModel]?)
+        case locationSaved(Bool)
     }
     let service : WeatherService
     
@@ -68,6 +69,9 @@ class DashboardViewModel {
                 }
             } receiveValue: { [weak self] result in
                 self?.output.send(.currentWeather(result))
+                if result != nil{
+                    self?.checkIfLocationSaved(weather: result!)
+                }
                 self?.handleGetWeatherForecast()
             }
             .store(in: &cancellables)
@@ -113,6 +117,16 @@ class DashboardViewModel {
         locationPersistence.saveLocation()
     }
     
+    //checkSaved Location
+    private func checkIfLocationSaved(weather : CurrentWeather){
+        locationPersistence.retrievLocationByName(weather.name ?? "")
+            .sink {[weak self] location in
+                self?.output.send(.locationSaved(location != nil))
+            }
+            .store(in: &cancellables)
+
+    }
+    
     //MARK: Subscribe to Current Location
     private func bindLocationUpdate(){
         appDelelagate.locationChangedPublisher
@@ -120,8 +134,8 @@ class DashboardViewModel {
                 guard coord != nil else {
                     return
                 }
-               
-                self?.getLocationLikelyhood()
+                self?.handleGetCurrentWeather()
+                //self?.getLocationLikelyhood()
             }
             .store(in: &cancellables)
     }
@@ -172,7 +186,7 @@ extension DashboardViewModel {
         locationPersistence.output
             .sink { value in
                 if case .success = value {
-                    self.output.send(.locationSaved("location save successfully!"))
+                    self.output.send(.locationSaveSuccess("location save successfully!"))
                 }
             }
             .store(in: &cancellables)

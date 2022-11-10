@@ -34,7 +34,6 @@ class FavouriteLocationViewController: UIViewController{
         bind()
     }
     override func viewWillAppear(_ animated: Bool) {
-        appDelelagate.showProgress(self)
         navigationController?.navigationBar.tintColor = .white
         navigationItem.title = "Favourites"
     }
@@ -52,20 +51,21 @@ class FavouriteLocationViewController: UIViewController{
             .receive(on: DispatchQueue.main)
             .sink {[weak self] value in
                 switch value {
+                case .noLocationsAlert:
+                    let alert = UIAlertController(title: "No Favourites", message: "Could not find your favourite locations!", preferredStyle: .alert)
+                    let action = UIAlertAction(title: "close", style: .destructive) { action in
+                        self?.navigationController?.popViewController(animated: true)
+                    }
+                    alert.addAction(action)
+                    self?.present(alert, animated: true)
                 case .loadLocations :
                     self?.locationsTableView.reloadData()
-                    appDelelagate.dismissProgress()
                 }
             }
             .store(in: &cancellables)
         
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if(editingStyle == .delete){
-            input.send(.delete(favouriteLocationsViewModel.locations[indexPath.row]))
-        }
-    }
 }
 
 //MARK: DataSource
@@ -82,11 +82,21 @@ extension FavouriteLocationViewController:UITableViewDataSource{
         }
         cell.city_name.text = "\(location.city!),\(location.country_code!)"
         cell.coord.text = "[\(location.coord!.lat),\(location.coord!.lon)]"
-        cell.time.text = "sunset \(location.sunset) | \(location.sunrise)"
+        cell.time.text = "sun \(sunTime(from: location.sunrise)) - \(sunTime(from: location.sunset))"
         return cell
     }
     
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if(editingStyle == .delete){
+            input.send(.delete(favouriteLocationsViewModel.locations[indexPath.row]))
+        }
+    }
+    
+    private func sunTime(from dt: Double) -> String{
+        return Date(timeIntervalSince1970: .init(floatLiteral: dt))
+            .formatted(date: .omitted, time: .shortened)
+    }
     
 }
 
