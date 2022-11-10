@@ -10,6 +10,6 @@ import Combine
 
 protocol WeatherService {
     
-    func fetchCurrentWeather() -> AnyPublisher<CurrentWeather?,DataError>
-    func fetchWeatherForecast() -> AnyPublisher<WeatherForecast?,DataError>
+    func fetchCurrentWeather(lat : Double,lon : Double) -> AnyPublisher<CurrentWeather?,DataError>
+    func fetchWeatherForecast(lat : Double,lon : Double) -> AnyPublisher<WeatherForecast?,DataError>
 }

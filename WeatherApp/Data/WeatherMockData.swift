@@ -41,7 +41,7 @@ class WeatherMockData : WeatherService{
     private var currentWeatherPublisher = CurrentValueSubject<CurrentWeather?,DataError>(nil)
     private var forecastWeatherPublisher = CurrentValueSubject<WeatherForecast?,DataError>(nil)
     
-    func fetchCurrentWeather() -> AnyPublisher<CurrentWeather?, DataError> {
+    func fetchCurrentWeather(lat : Double,lon : Double) -> AnyPublisher<CurrentWeather?, DataError> {
         do{
             let data : CurrentWeather = try Bundle.main.loadDataFrom(file: "current_weather.json")
             currentWeatherPublisher.send(data)
@@ -58,7 +58,7 @@ class WeatherMockData : WeatherService{
         return currentWeatherPublisher.eraseToAnyPublisher()
     }
     
-    func fetchWeatherForecast() -> AnyPublisher<WeatherForecast?, DataError> {
+    func fetchWeatherForecast(lat : Double,lon : Double) -> AnyPublisher<WeatherForecast?, DataError> {
         do{
             let data : WeatherForecast = try Bundle.main.loadDataFrom(file: "forecast_weather.json")
             forecastWeatherPublisher.send(data)
