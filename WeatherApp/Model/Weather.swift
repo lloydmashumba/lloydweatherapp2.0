@@ -42,6 +42,9 @@ struct Weather : Decodable{
     var main : String
     var description : String
     var icon : String
+    var conditionForTheme : String {
+        main == "Rain" ? "rainny" : main == "Clouds" ? "cloudy" :"sunny"
+    }
 }
 
 struct Main : Decodable{
@@ -53,6 +56,7 @@ struct Main : Decodable{
     var humidity : Int
     var sea_level : Int
     var grnd_level : Int
+    
 }
 
 struct Wind : Decodable{

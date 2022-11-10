@@ -18,7 +18,7 @@ class DashboardViewModel {
     }
     //output sent to the DashboardViewController
     enum Output{
-        case details(Details)
+        case details(Details?)
         case locationSaved(String)
         case currentWeather(CurrentWeather?)
         case forecastWeather([String:ForecastModel]?)
@@ -124,11 +124,12 @@ class DashboardViewModel {
 
              guard error == nil else {
                print("Current place error: \(error?.localizedDescription ?? "")")
+                 self?.output.send(.details(nil))
                return
              }
 
              guard let place = placeDetails?.first?.place else {
-                 print("nothing")
+                 self?.output.send(.details(nil))
                return
              }
             

@@ -23,12 +23,14 @@ class FavouriteLocationViewController: UIViewController{
     
     //cancellables
     private var cancellables = Set<AnyCancellable>()
+    //theme
+    var theme : String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         favouriteLocationTableView.rowHeight = 60
         favouriteLocationTableView.separatorColor = .clear
-        favouriteLocationContainerView.backgroundColor = UIColor(named: "forest_sunny")
+        favouriteLocationContainerView.backgroundColor = UIColor(named:theme != nil ? theme! : "forest_sunny")
         bind()
     }
     override func viewWillAppear(_ animated: Bool) {

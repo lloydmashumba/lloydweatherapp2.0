@@ -63,8 +63,21 @@
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1c7-Hs-QGL">
                                         <rect key="frame" x="0.0" y="307" width="390" height="20"/>
+                                        <subviews>
+                                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KoO-JB-DVs">
+                                                <rect key="frame" x="292" y="4" width="78" height="12"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" image="info.circle.fill" catalog="system" title="info"/>
+                                                <connections>
+                                                    <action selector="locationsTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MFh-xB-cxg"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="KoO-JB-DVs" secondAttribute="trailing" constant="20" id="8hk-5Z-Ma4"/>
+                                            <constraint firstAttribute="bottom" secondItem="KoO-JB-DVs" secondAttribute="bottom" constant="4" id="FXT-gw-eys"/>
+                                            <constraint firstItem="KoO-JB-DVs" firstAttribute="top" secondItem="1c7-Hs-QGL" secondAttribute="top" constant="4" id="YZN-VO-Mep"/>
                                             <constraint firstAttribute="height" constant="20" id="yjO-lG-2KY"/>
                                         </constraints>
                                     </view>
@@ -87,7 +100,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vEE-q1-C7v">
                                         <rect key="frame" x="0.0" y="531" width="390" height="69"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3OA-CZ-QYU">
+                                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3OA-CZ-QYU">
                                                 <rect key="frame" x="107.00000000000001" y="17.333333333333375" width="176.33333333333337" height="34.333333333333343"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="gray" imagePlacement="trailing" title="Saved Locations" imagePadding="12" cornerStyle="capsule" titleAlignment="leading">
@@ -280,6 +293,7 @@
     </scenes>
     <resources>
         <image name="chevron.right" catalog="system" width="97" height="128"/>
+        <image name="info.circle.fill" catalog="system" width="128" height="123"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

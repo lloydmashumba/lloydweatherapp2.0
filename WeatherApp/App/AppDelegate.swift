@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,CLLocationManagerDelegate{
     }()
     
     //Location changed publisher
-    let locationChangedPublisher = CurrentValueSubject<CLLocationCoordinate2D?,Never>(nil)
+    let locationChangedPublisher = PassthroughSubject<CLLocationCoordinate2D?,Never>()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.

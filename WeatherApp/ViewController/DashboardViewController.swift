@@ -12,6 +12,7 @@ import CoreLocation
 class DashboardViewController: UIViewController {
     
     let locationManager = CLLocationManager()
+    private var alert : UIAlertController?
     
     //MARK: Properties
     private var viewHeight : CGFloat {
@@ -22,6 +23,7 @@ class DashboardViewController: UIViewController {
     private var cancellables = Set<AnyCancellable>()
     //displayed current weather
     private var currentWeather : CurrentWeather?
+    private var currentLocationDetails : Details?
     
     //:-Views
     //current weather
@@ -72,9 +74,7 @@ class DashboardViewController: UIViewController {
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
         
-        view.backgroundColor = UIColor(named: "forest_sunny")
-        themeImageView.image = UIImage(named: "forest_sunny")
-        
+        theme(nil)
         
     }
     
@@ -85,7 +85,7 @@ class DashboardViewController: UIViewController {
             .sink(receiveValue: { [weak self] output in
                 switch output {
                 case .details(let details):
-                    self?.showDialog(details.name, message: details.address)
+                    self?.currentLocationDetails = details
                 case .locationSaved(let response):
                     self?.showDialog("Saved", message: response)
                 case .currentWeather(let currentWeather):
@@ -102,14 +102,25 @@ class DashboardViewController: UIViewController {
         
     }
 
-    @IBAction func locationsTapped(_ sender: Any) {
+    @IBAction func locationsTapped(_ sender: UIButton) {
         
-        guard let vc = storyboard?.instantiateViewController(withIdentifier: "FavouriteLocationViewController") as? FavouriteLocationViewController else {
-            print("view controller failed")
-            return
+        switch sender.tag {
+        case 1 :
+            print("favourite li")
+                if let vc = storyboard?.instantiateViewController(withIdentifier: "FavouriteLocationViewController") as? FavouriteLocationViewController {
+                vc.theme = "forest_\(currentWeather?.weather[0].conditionForTheme ?? "sunny")"
+                navigationController?.pushViewController(vc, animated: true)
+                }
+        case 2 :
+            if currentLocationDetails != nil {
+                showDialog(currentLocationDetails!.name, message: currentLocationDetails!.address)
+            }else{
+                showDialog("No Details", message: "Couldn't find details for this location!")
+            }
+        default :break
+                
         }
         
-        navigationController?.pushViewController(vc, animated: true)
     }
     //:- design dynamic set up
     override func viewWillAppear(_ animated: Bool) {
@@ -203,6 +214,14 @@ class DashboardViewController: UIViewController {
         forecastDay5.dayLabel.accessibilityIdentifier = "day5"
     }
     
+    //MARK: Theme
+    private func theme(_ weather:Weather?){
+        let theme = weather != nil ? "forest_\(weather!.conditionForTheme.lowercased())" : "forest_sunny"
+        print(theme)
+        view.backgroundColor = UIColor(named: theme)
+        themeImageView.image = UIImage(named: theme)
+    }
+    
 
 }
 //MARK: Updates
@@ -216,7 +235,8 @@ extension DashboardViewController{
         minRecordTemp.temp.text = "\(currentWeather.main.temp_min)º"
         maxRecordTemp.temp.text = "\(currentWeather.main.temp_max)º"
         temperatureLabel.text = "\(currentWeather.main.temp)º"
-        weatherDescriptionLabel.text = currentWeather.weather[0].main == "Rain" ? "Rainny" : "Sunny"
+        weatherDescriptionLabel.text = currentWeather.weather[0].conditionForTheme
+        theme(currentWeather.weather[0])
     }
     
     private func handleForecastUpdates(_ forecast : [String : ForecastModel]){
@@ -234,9 +254,17 @@ extension DashboardViewController{
     
     //show dialogResponses
     private func showDialog(_ title: String,message :String){
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "ok", style: .default))
-        present(alert, animated: true)
+        guard alert == nil else{
+            alert?.dismiss(animated: true,completion: { [weak self] in
+                self?.alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+                self?.alert!.addAction(UIAlertAction(title: "ok", style: .default))
+                self?.present((self?.alert)!, animated: true)
+            })
+            return
+        }
+        alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert!.addAction(UIAlertAction(title: "ok", style: .default))
+        present(alert!, animated: true)
     }
 }
 
