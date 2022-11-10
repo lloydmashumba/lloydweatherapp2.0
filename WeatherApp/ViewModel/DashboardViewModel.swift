@@ -18,6 +18,7 @@ class DashboardViewModel {
     }
     //output sent to the DashboardViewController
     enum Output{
+        case errorAlert(String)
         case details(Details?)
         case locationSaved(String)
         case currentWeather(CurrentWeather?)
@@ -47,7 +48,6 @@ class DashboardViewModel {
             switch value {
             case .viewDidAppear :
                 self?.handleGetCurrentWeather()
-                self?.handleGetWeatherForecast()
             }
         }
         .store(in: &cancellables)
@@ -57,12 +57,18 @@ class DashboardViewModel {
     //MARK: Current Weather Call
     //handles response for current weather call
     private func handleGetCurrentWeather(){
-        service.fetchCurrentWeather().sink { completion in
+        service.fetchCurrentWeather().sink {[weak self] completion in
                 if case .failure(let error) = completion{
-                    print(error.localizedDescription)
+                    switch error {
+                    case .locationFailure(let message),
+                            .apiCallError(let message),
+                            .mockDataError(let message) :
+                        self?.output.send(.errorAlert(message))
+                    }
                 }
             } receiveValue: { [weak self] result in
                 self?.output.send(.currentWeather(result))
+                self?.handleGetWeatherForecast()
             }
             .store(in: &cancellables)
 
@@ -75,9 +81,15 @@ class DashboardViewModel {
                 self.forecastDay(Date(timeIntervalSince1970: .init(floatLiteral: $0.dt)))
             }})
             .map({self.orderdForecast($0)})
-            .sink { completion in
+            .sink {[weak self] completion in
                 if case .failure(let error) = completion{
-                    print(error.localizedDescription)
+                    switch error {
+                    case .locationFailure(let message),
+                            .apiCallError(let message),
+                            .mockDataError(let message) :
+                        self?.output.send(.errorAlert(message))
+                    }
+                    
                 }
             } receiveValue: { [weak self] result in
                 self?.output.send(.forecastWeather(result))
@@ -89,9 +101,9 @@ class DashboardViewModel {
     func saveFavouriteLocation(weather : CurrentWeather){
         let favourite = Favourite(context: context)
         favourite.city = weather.name
-        favourite.sunrise = weather.sys.sunrise ?? 0.0
-        favourite.sunset = weather.sys.sunset ?? 0.0
-        favourite.country_code = weather.sys.country
+        favourite.sunrise = weather.sys?.sunrise ?? 0.0
+        favourite.sunset = weather.sys?.sunset ?? 0.0
+        favourite.country_code = weather.sys?.country
         
         let coord = Coord(context: context)
         coord.lat = weather.coord?.lat ?? 0.0
@@ -113,10 +125,7 @@ class DashboardViewModel {
             }
             .store(in: &cancellables)
     }
-    
-    
-    //Open Weather call
-    
+
     //About the current location
     private func getLocationLikelyhood() {
         let placeFields: GMSPlaceField = [.name,.formattedAddress]

@@ -12,4 +12,6 @@ let appDelelagate = UIApplication.shared.delegate as! AppDelegate
 
 enum DataError : Error{
     case mockDataError(String)
+    case apiCallError(String)
+    case locationFailure(String)
 }
