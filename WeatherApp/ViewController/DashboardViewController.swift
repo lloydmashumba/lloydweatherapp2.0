@@ -110,7 +110,7 @@ class DashboardViewController: UIViewController {
         case 1 :
             print("favourite li")
                 if let vc = storyboard?.instantiateViewController(withIdentifier: "FavouriteLocationViewController") as? FavouriteLocationViewController {
-                    var theme = "forest_\(currentWeather?.weather[0].conditionForTheme ?? "sunny")".lowercased()
+                    let theme = "forest_\(currentWeather?.weather[0].conditionForTheme ?? "sunny")".lowercased()
                     print(theme)
                 vc.theme = theme
                 navigationController?.pushViewController(vc, animated: true)

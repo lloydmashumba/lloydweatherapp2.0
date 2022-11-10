@@ -41,14 +41,9 @@ class OpenWeatherAPi : WeatherService{
                                     httpResponse.statusCode == 200 else {
                     throw DataError.apiCallError("Failed to Connect to the internet")
                 }
-                print(data)
                 return data
             }
             .decode(type: CurrentWeather?.self, decoder: JSONDecoder())
-            .map({ vl in
-                print(vl ?? "none to print")
-                return vl
-            })
             .mapError({ error in
                 return DataError.apiCallError(error.localizedDescription)
             })

@@ -48,7 +48,6 @@ class DashboardViewModel {
             switch value {
             case .viewDidAppear :
                 self?.handleGetCurrentWeather()
-                self?.handleGetWeatherForecast()
             }
         }
         .store(in: &cancellables)
@@ -60,11 +59,16 @@ class DashboardViewModel {
     private func handleGetCurrentWeather(){
         service.fetchCurrentWeather().sink {[weak self] completion in
                 if case .failure(let error) = completion{
-                    print(error)
-                    self?.output.send(.errorAlert(error.localizedDescription))
+                    switch error {
+                    case .locationFailure(let message),
+                            .apiCallError(let message),
+                            .mockDataError(let message) :
+                        self?.output.send(.errorAlert(message))
+                    }
                 }
             } receiveValue: { [weak self] result in
                 self?.output.send(.currentWeather(result))
+                self?.handleGetWeatherForecast()
             }
             .store(in: &cancellables)
 
@@ -79,8 +83,13 @@ class DashboardViewModel {
             .map({self.orderdForecast($0)})
             .sink {[weak self] completion in
                 if case .failure(let error) = completion{
-                    print(error)
-                    self?.output.send(.errorAlert(error.localizedDescription))
+                    switch error {
+                    case .locationFailure(let message),
+                            .apiCallError(let message),
+                            .mockDataError(let message) :
+                        self?.output.send(.errorAlert(message))
+                    }
+                    
                 }
             } receiveValue: { [weak self] result in
                 self?.output.send(.forecastWeather(result))
@@ -116,10 +125,7 @@ class DashboardViewModel {
             }
             .store(in: &cancellables)
     }
-    
-    
-    //Open Weather call
-    
+
     //About the current location
     private func getLocationLikelyhood() {
         let placeFields: GMSPlaceField = [.name,.formattedAddress]
