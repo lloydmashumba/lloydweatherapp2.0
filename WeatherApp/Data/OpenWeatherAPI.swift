@@ -34,7 +34,7 @@ class OpenWeatherAPi : WeatherService{
             currentWeatherPublisher.send(completion: .failure(.apiCallError("could not validate Current Weather url")))
             return currentWeatherPublisher.eraseToAnyPublisher()
         }
-        print(url)
+
         return URLSession.shared.dataTaskPublisher(for: url)
             .tryMap { data,urlResponse in
                 guard let httpResponse = urlResponse as? HTTPURLResponse,

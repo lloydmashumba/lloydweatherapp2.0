@@ -37,6 +37,7 @@ class DashboardViewController: UIViewController {
     var tempRecordViews : [CurrentTempRecordView] {
         [minRecordTemp,currentRecordTemp,maxRecordTemp]
     }
+    @IBOutlet weak var viewLocationsBtn: UIButton!
     
     //Forecast
     var forecastDay1 = ForecastView()
@@ -88,12 +89,15 @@ class DashboardViewController: UIViewController {
                     self?.showDialog("Error", message: message)
                 case .details(let details):
                     self?.currentLocationDetails = details
-                case .locationSaved(let response):
+                case .locationSaveSuccess(let response):
+                    self?.saveBtn.isHidden = true
                     self?.showDialog("Saved", message: response)
                 case .currentWeather(let currentWeather):
                     self?.handleCurrentWeatherUpdates(currentWeather!)
                 case .forecastWeather(let weatherForecast) :
                     self?.handleForecastUpdates(weatherForecast!)
+                case .locationSaved(let result):
+                    self?.saveBtn.isHidden = result
                 }
             })
             .store(in: &cancellables)
@@ -103,7 +107,7 @@ class DashboardViewController: UIViewController {
         input.send(.viewDidAppear)
         
     }
-
+    
     @IBAction func locationsTapped(_ sender: UIButton) {
         
         switch sender.tag {
@@ -239,7 +243,7 @@ extension DashboardViewController{
         minRecordTemp.temp.text = "\(currentWeather.main.temp_min)º"
         maxRecordTemp.temp.text = "\(currentWeather.main.temp_max)º"
         temperatureLabel.text = "\(currentWeather.main.temp)º"
-        weatherDescriptionLabel.text = currentWeather.weather[0].conditionForTheme
+        weatherDescriptionLabel.text = currentWeather.weather[0].conditionForDisplay
         theme(currentWeather.weather[0])
     }
     

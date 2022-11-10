@@ -19,6 +19,7 @@ class FavouriteLocationsViewModel {
     
     //expected input to FavouriteLocationsViewController
     enum Output{
+        case noLocationsAlert
         case loadLocations
     }
     
@@ -55,6 +56,9 @@ class FavouriteLocationsViewModel {
         locationPersistence.fetchAllSavedLocations()
             .sink {[weak self] locations in
                 self?.locations = locations
+                if(locations.isEmpty){
+                    self?.output.send(.noLocationsAlert)
+                }
                 self?.output.send(.loadLocations)
             }
             .store(in: &cancellables)

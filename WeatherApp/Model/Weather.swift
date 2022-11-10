@@ -45,6 +45,9 @@ struct Weather : Decodable{
     var conditionForTheme : String {
         main == "Rain" ? "Rainny" : main == "Clouds" ? "Cloudy" :"Sunny"
     }
+    var conditionForDisplay : String {
+        main == "Rain" ? "Rainny" : main == "Clouds" ? "Cloudy":main == "Clear" ? "Clear Sky" :"Sunny"
+    }
 }
 
 struct Main : Decodable{
