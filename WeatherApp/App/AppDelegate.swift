@@ -14,14 +14,7 @@ import Combine
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate,CLLocationManagerDelegate{
-    //Progress
-    private let progressView : Progress = {
-        let vc = Progress()
-        vc.modalTransitionStyle = .crossDissolve
-        vc.modalPresentationStyle = .overCurrentContext
-        return vc
-    }()
-    
+   
     //Location changed publisher
     let locationChangedPublisher = PassthroughSubject<CLLocationCoordinate2D?,Never>()
 
@@ -80,15 +73,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate,CLLocationManagerDelegate{
             }
         }
     }
-    
-    //Mark Progress View
-    func showProgress(_ vc : UIViewController){
-        vc.present(progressView, animated: true)
-    }
-    func dismissProgress(){
-        progressView.dismiss(animated: true)
-    }
-    
-    
 }
 

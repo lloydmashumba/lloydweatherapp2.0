@@ -63,8 +63,8 @@ class DashboardViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        dashboardViewModel = DashboardViewModel(service: OpenWeatherAPi())
+        saveBtn.isHidden = true
+        dashboardViewModel = DashboardViewModel(service: WeatherMockData())
         bind()
         mainTempDescriptionStackView.axis = .vertical
         mainTempDescriptionStackView.distribution = .fill
