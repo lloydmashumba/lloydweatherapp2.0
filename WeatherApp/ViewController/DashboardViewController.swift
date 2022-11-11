@@ -65,7 +65,7 @@ class DashboardViewController: UIViewController {
         super.viewDidLoad()
         saveBtn.isHidden = true
         
-        var environment = ProcessInfo.processInfo.environment["env"]
+        let environment = ProcessInfo.processInfo.environment["env"]
         if environment == "TEST"{
             dashboardViewModel = DashboardViewModel(service: WeatherMockData())
         }else {
@@ -139,7 +139,7 @@ class DashboardViewController: UIViewController {
         tempRecordHeightConstraint.constant = viewHeight * 0.06
         forecastViewHeightConstraint.constant = viewHeight * 0.3
         emptyViewHeightConstraint.constant = viewHeight * 0.07
-        
+        defaultValues()
         setUpCurrentTemperatureView()
         setUpRecordViews()
         setUpWeatherForecastView()
@@ -197,6 +197,7 @@ class DashboardViewController: UIViewController {
     //MARK: - Temp Record
     //setting up the record view
     private func setUpRecordViews(){
+        
         //title to temp record
         maxRecordTemp.tempLabel.text = "max"
         minRecordTemp.tempLabel.text = "min"
@@ -226,6 +227,12 @@ class DashboardViewController: UIViewController {
         forecastDay3.dayLabel.accessibilityIdentifier = "day3"
         forecastDay4.dayLabel.accessibilityIdentifier = "day4"
         forecastDay5.dayLabel.accessibilityIdentifier = "day5"
+        
+        for forecast in forecastViews{
+            forecast.heightAnchor.constraint(equalToConstant: viewHeight * 0.06).isActive = true
+            forcastStackView.addArrangedSubview(forecast)
+            
+        }
     }
     
     //MARK: Theme
@@ -241,6 +248,22 @@ class DashboardViewController: UIViewController {
 //MARK: Updates
 //methods that will handle view updates
 extension DashboardViewController{
+    
+    func defaultValues(){
+        if currentWeather == nil{
+            temperatureLabel.text = "_ _"
+            temperatureLabel.text = "_ _"
+            currentRecordTemp.temp.text = "_ _"
+            minRecordTemp.temp.text = "_ _"
+            maxRecordTemp.temp.text = "_ _"
+            weatherDescriptionLabel.text = "_ _"
+            for forecast in forecastViews{
+                forecast.tempLabel.text = "- -"
+                forecast.dayLabel.text = "_ _"
+                forecast.weatherIconView.image = UIImage(named:"sunny")
+            }
+        }
+    }
     
     //Handles current weather updates
     private func handleCurrentWeatherUpdates(_ currentWeather: CurrentWeather){
@@ -261,8 +284,6 @@ extension DashboardViewController{
             forecastView.tempLabel.text = "\(sortedForecast[i].value.temp)º"
             forecastView.dayLabel.text = sortedForecast[i].key
             forecastView.weatherIconView.image = UIImage(named: sortedForecast[i].value.conditionIcon)
-
-            forcastStackView.addArrangedSubview(forecastView)
         }
     }
     
