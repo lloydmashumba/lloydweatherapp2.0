@@ -64,17 +64,20 @@ class DashboardViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         saveBtn.isHidden = true
-        dashboardViewModel = DashboardViewModel(service: WeatherMockData())
+        
+        var environment = ProcessInfo.processInfo.environment["env"]
+        if environment == "TEST"{
+            dashboardViewModel = DashboardViewModel(service: WeatherMockData())
+        }else {
+            dashboardViewModel = DashboardViewModel(service: OpenWeatherAPi())
+            locationManager.delegate = appDelelagate
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.requestAlwaysAuthorization()
+            locationManager.startUpdatingLocation()
+        }
         bind()
         mainTempDescriptionStackView.axis = .vertical
         mainTempDescriptionStackView.distribution = .fill
-        
-        
-        locationManager.delegate = appDelelagate
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestAlwaysAuthorization()
-        locationManager.startUpdatingLocation()
-        
         theme(nil)
         
     }
@@ -182,11 +185,14 @@ class DashboardViewController: UIViewController {
         saveBtn.layer.borderWidth = 1
         saveBtn.layer.cornerRadius = 8
         saveBtn.addTarget(self, action: #selector(saveTapped), for: .touchUpInside)
+        saveBtn.accessibilityIdentifier = "saveBtn"
 
     }
     //save location call
     @objc func saveTapped(){
-        dashboardViewModel?.saveFavouriteLocation(weather: currentWeather!)
+        if(currentWeather != nil){
+            input.send(.save(currentWeather!))
+        }
     }
     //MARK: - Temp Record
     //setting up the record view

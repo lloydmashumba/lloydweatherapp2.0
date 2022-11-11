@@ -14,6 +14,7 @@ class test_when_dashboard_succefully_load: XCTestCase {
     override func setUp() {
         let app =  XCUIApplication()
         continueAfterFailure = false
+        app.launchEnvironment = ["env":"TEST"]
         dashboardElements = DashboardElements(app: app)
         app.launch()
         _ = dashboardElements.temperature.waitForExistence(timeout: 5)
@@ -65,4 +66,45 @@ class test_when_dashboard_succefully_load: XCTestCase {
         XCTAssertEqual("Friday", day5)
         XCTAssertEqual("20.37º", tempDay5)
     }
+}
+
+//MARK: Save And Delete FavouriteLoacation
+class test_when_user_saves_and_delete_favourite_locations : XCTestCase{
+    
+    private let app =  XCUIApplication()
+    private var dashboardElements : DashboardElements!
+    private var locationsElements : LocationsViewElement!
+    
+    override func setUp() {
+        continueAfterFailure = false
+        app.launchEnvironment = ["env":"TEST"]
+        dashboardElements = DashboardElements(app: app)
+        locationsElements = LocationsViewElement(app: app)
+        app.launch()
+        _ = dashboardElements.temperature.waitForExistence(timeout: 5)
+    }
+    
+    
+    func test_save_view_and_delete_functionality(){
+        //save
+        dashboardElements.saveBtn.tap()
+        dashboardElements.saveAlert.scrollViews.otherElements.buttons["ok"].tap()
+        XCTAssertTrue(!dashboardElements.saveBtn.exists)
+        dashboardElements.locationsBtn.tap()
+        //view_map
+        app.tables.staticTexts["Harare,ZW"].tap()
+        app.otherElements["Harare,ZW"].tap()
+        locationsElements.backFromNavigation.tap()
+        locationsElements.backToDashboordNavigation.tap()
+        //delete
+        dashboardElements.locationsBtn.tap()
+        _ = locationsElements.firstLocationCell.waitForExistence(timeout: 5)
+        locationsElements.firstLocationCell.swipeLeft()
+        locationsElements.firstLocationCell.buttons["Delete"].tap()
+        locationsElements.noFavouriteAlerts.buttons["close"].tap()
+        
+        XCTAssertTrue(dashboardElements.saveBtn.waitForExistence(timeout: 5))
+        
+    }
+    
 }

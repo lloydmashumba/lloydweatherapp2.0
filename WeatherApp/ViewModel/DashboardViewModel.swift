@@ -31,7 +31,10 @@ class DashboardViewModel {
     init(service : WeatherService){
         self.service = service;
         subscribeToFavouriteLocationPersistenceOutput()
-        bindLocationUpdate()
+        if !(self.service is WeatherMockData){
+            bindLocationUpdate()
+        }
+        
     }
     
     var cancellables = Set<AnyCancellable>()
@@ -51,7 +54,7 @@ class DashboardViewModel {
             case .save(let currentWeather):
                 self?.saveFavouriteLocation(weather: currentWeather)
             case .viewDidAppear :
-                print("Loaded")
+                self?.handleGetCurrentWeather()
             }
         }
         .store(in: &cancellables)
@@ -138,7 +141,7 @@ class DashboardViewModel {
                     return
                 }
                 self?.handleGetCurrentWeather()
-                //self?.getLocationLikelyhood()
+                self?.getLocationLikelyhood()
             }
             .store(in: &cancellables)
     }
@@ -174,14 +177,15 @@ extension DashboardViewModel {
         dateFormatter.dateFormat = "EEEE"
         return dateFormatter.string(from:date)
     }
-    
+    //oreder received forecast
     func orderdForecast(_ forecast : [String:[CurrentWeather]]) -> [String : ForecastModel] {
         var convertedForecast = [String : ForecastModel]()
         for condition in forecast {
             let dayForecast = condition.value.max { $0.dt < $1.dt}
             convertedForecast[condition.key] = .init(dt:dayForecast!.dt,main: dayForecast!.weather[0].main, temp: dayForecast!.main.temp)
         }
-        convertedForecast.removeValue(forKey: forecastDay(Date()))
+        convertedForecast.removeValue(forKey: forecastDay(
+            service is WeatherMockData ? Date(timeIntervalSince1970: .init(floatLiteral: 1667768400)): Date()))
         return convertedForecast
     }
     

@@ -66,6 +66,7 @@
                                         <subviews>
                                             <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KoO-JB-DVs">
                                                 <rect key="frame" x="20" y="4" width="78" height="12"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="infoBtn"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" image="info.circle.fill" catalog="system" title="info"/>
                                                 <connections>
@@ -102,6 +103,7 @@
                                         <subviews>
                                             <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3OA-CZ-QYU">
                                                 <rect key="frame" x="107.00000000000001" y="17.333333333333375" width="176.33333333333337" height="34.333333333333343"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="favBtn"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="gray" imagePlacement="trailing" title="Saved Locations" imagePadding="12" cornerStyle="capsule" titleAlignment="leading">
                                                     <imageReference key="image" image="chevron.right" catalog="system" symbolScale="large"/>

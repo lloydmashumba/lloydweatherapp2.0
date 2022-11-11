@@ -82,7 +82,7 @@ extension FavouriteLocationViewController:UITableViewDataSource{
         }
         cell.city_name.text = "\(location.city!),\(location.country_code!)"
         cell.coord.text = "[\(location.coord!.lat),\(location.coord!.lon)]"
-        cell.time.text = "sun \(sunTime(from: location.sunrise)) - \(sunTime(from: location.sunset))"
+        cell.time.text = "sun \(sunTime(from: location.sunset)) - \(sunTime(from: location.sunrise))"
         return cell
     }
     
