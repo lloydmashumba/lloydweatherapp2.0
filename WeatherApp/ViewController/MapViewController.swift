@@ -17,20 +17,32 @@ class MapViewController: UIViewController {
         
     }()
     
-    //MARK: properties
     var pinTitle : String?
     var lat : Double?
     var lon : Double?
     
     //MARK: Location
+    var location :CLLocationCoordinate2D{
+        CLLocationCoordinate2D(
+            latitude: lat ?? 0.0, longitude: lon ?? 0.0
+        )
+    }
+    
+    //pin
     private var annotation : MKPointAnnotation {
         
         let pin = MKPointAnnotation()
         pin.title = pinTitle ?? ""
-        pin.coordinate = CLLocationCoordinate2D(
-            latitude: lat ?? 0.0, longitude: lon ?? 0.0
-        )
+        pin.coordinate = location
         return pin
+    }
+    //region
+    private var region : MKCoordinateRegion {
+        MKCoordinateRegion(center: location,
+        span: MKCoordinateSpan(
+            latitudeDelta: 10,
+            longitudeDelta: 10
+        ))
     }
 
     override func viewDidLoad() {
@@ -44,6 +56,7 @@ class MapViewController: UIViewController {
         mapView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         mapView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         //add annotation
+        mapView.region = region
         mapView.addAnnotation(annotation)
     }
     

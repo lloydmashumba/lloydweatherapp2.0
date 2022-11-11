@@ -15,6 +15,7 @@ class DashboardViewModel {
     //input received from the DashboardViewController
     enum Input{
         case viewDidAppear
+        case save(CurrentWeather)
     }
     //output sent to the DashboardViewController
     enum Output{
@@ -47,8 +48,10 @@ class DashboardViewModel {
     func bind(input : AnyPublisher<Input,Never>) -> AnyPublisher<Output,Never>{
         input.sink {[weak self] value in
             switch value {
+            case .save(let currentWeather):
+                self?.saveFavouriteLocation(weather: currentWeather)
             case .viewDidAppear :
-                self?.handleGetCurrentWeather()
+                print("Loaded")
             }
         }
         .store(in: &cancellables)
