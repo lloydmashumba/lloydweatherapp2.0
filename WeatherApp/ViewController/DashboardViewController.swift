@@ -64,17 +64,20 @@ class DashboardViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         saveBtn.isHidden = true
-        dashboardViewModel = DashboardViewModel(service: WeatherMockData())
+        
+        let environment = ProcessInfo.processInfo.environment["env"]
+        if environment == "TEST"{
+            dashboardViewModel = DashboardViewModel(service: WeatherMockData())
+        }else {
+            dashboardViewModel = DashboardViewModel(service: OpenWeatherAPi())
+            locationManager.delegate = appDelelagate
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.requestAlwaysAuthorization()
+            locationManager.startUpdatingLocation()
+        }
         bind()
         mainTempDescriptionStackView.axis = .vertical
         mainTempDescriptionStackView.distribution = .fill
-        
-        
-        locationManager.delegate = appDelelagate
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestAlwaysAuthorization()
-        locationManager.startUpdatingLocation()
-        
         theme(nil)
         
     }
@@ -136,7 +139,7 @@ class DashboardViewController: UIViewController {
         tempRecordHeightConstraint.constant = viewHeight * 0.06
         forecastViewHeightConstraint.constant = viewHeight * 0.3
         emptyViewHeightConstraint.constant = viewHeight * 0.07
-        
+        defaultValues()
         setUpCurrentTemperatureView()
         setUpRecordViews()
         setUpWeatherForecastView()
@@ -182,15 +185,19 @@ class DashboardViewController: UIViewController {
         saveBtn.layer.borderWidth = 1
         saveBtn.layer.cornerRadius = 8
         saveBtn.addTarget(self, action: #selector(saveTapped), for: .touchUpInside)
+        saveBtn.accessibilityIdentifier = "saveBtn"
 
     }
     //save location call
     @objc func saveTapped(){
-        dashboardViewModel?.saveFavouriteLocation(weather: currentWeather!)
+        if(currentWeather != nil){
+            input.send(.save(currentWeather!))
+        }
     }
     //MARK: - Temp Record
     //setting up the record view
     private func setUpRecordViews(){
+        
         //title to temp record
         maxRecordTemp.tempLabel.text = "max"
         minRecordTemp.tempLabel.text = "min"
@@ -220,6 +227,12 @@ class DashboardViewController: UIViewController {
         forecastDay3.dayLabel.accessibilityIdentifier = "day3"
         forecastDay4.dayLabel.accessibilityIdentifier = "day4"
         forecastDay5.dayLabel.accessibilityIdentifier = "day5"
+        
+        for forecast in forecastViews{
+            forecast.heightAnchor.constraint(equalToConstant: viewHeight * 0.06).isActive = true
+            forcastStackView.addArrangedSubview(forecast)
+            
+        }
     }
     
     //MARK: Theme
@@ -235,6 +248,22 @@ class DashboardViewController: UIViewController {
 //MARK: Updates
 //methods that will handle view updates
 extension DashboardViewController{
+    
+    func defaultValues(){
+        if currentWeather == nil{
+            temperatureLabel.text = "_ _"
+            temperatureLabel.text = "_ _"
+            currentRecordTemp.temp.text = "_ _"
+            minRecordTemp.temp.text = "_ _"
+            maxRecordTemp.temp.text = "_ _"
+            weatherDescriptionLabel.text = "_ _"
+            for forecast in forecastViews{
+                forecast.tempLabel.text = "- -"
+                forecast.dayLabel.text = "_ _"
+                forecast.weatherIconView.image = UIImage(named:"sunny")
+            }
+        }
+    }
     
     //Handles current weather updates
     private func handleCurrentWeatherUpdates(_ currentWeather: CurrentWeather){
@@ -255,8 +284,6 @@ extension DashboardViewController{
             forecastView.tempLabel.text = "\(sortedForecast[i].value.temp)º"
             forecastView.dayLabel.text = sortedForecast[i].key
             forecastView.weatherIconView.image = UIImage(named: sortedForecast[i].value.conditionIcon)
-
-            forcastStackView.addArrangedSubview(forecastView)
         }
     }
     

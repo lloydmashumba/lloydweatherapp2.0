@@ -72,4 +72,20 @@ public struct DashboardElements {
         app.staticTexts["tempDay5"]
     }
     
+    //Buttons
+    
+    var saveBtn  : XCUIElement {
+        app.buttons["saveBtn"]
+    }
+    var locationsBtn  : XCUIElement {
+        app.buttons["favBtn"]
+    }
+    var infoBtn  : XCUIElement {
+        app.buttons["info"]
+    }
+    
+    var saveAlert : XCUIElement {
+        app.alerts["Saved"]
+    }
+    
 }
